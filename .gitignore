@@ -1,0 +1,15 @@
+# Specify filepatterns you want git to ignore.
+
+DCC.X/build/
+DCC.X/debug/
+DCC.X/disassembly/
+DCC.X/dist/
+DCC.X/nbproject/private/
+DCC.X/nbproject/Package-*.bash
+DCC.X/nbproject/configurations.xml
+DCC.X/nbproject/Makefile-*
+util/~*
+
+hardware/render/*
+hardware/*.autosave
+report/*.pdf
