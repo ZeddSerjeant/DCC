@@ -20,12 +20,12 @@ enum FLAGS {OFF=0, OUTPUT=0, INTERNAL=0, CLEAR=0, DIGITAL=0, ANALOG=1, INPUT=1, 
 #define IND_LED_TYPE ANS2
 #define IND_LED_BIT 0b000100
 
-#define PWM_MOTOR RC5
-#define PWM_MOTOR_PIN TRISC5
+#define DCC1 RC4
+#define DCC1_PIN TRISC4
 
-#define MOTOR_READING RC1
-#define MOTOR_READING_PIN TRISC1
-#define MOTOR_READING_TYPE ANS5
+#define DCC2 RC5
+#define DCC2_PIN TRISC5
+
 
 // button
 #define BUTTON RA3
@@ -56,7 +56,7 @@ enum FLAGS {OFF=0, OUTPUT=0, INTERNAL=0, CLEAR=0, DIGITAL=0, ANALOG=1, INPUT=1, 
 
 //PWM
 //parts are specified as an offset within a register
-#define PWM_CONTROL CCP1CON
+#define ECCP_CONTROL CCP1CON
 // #define PWM_MODE P1M
 #define PWM_MODE (unsigned char)6
 // #define PWM_OUTPUT CCP1M
@@ -65,6 +65,7 @@ enum FLAGS {OFF=0, OUTPUT=0, INTERNAL=0, CLEAR=0, DIGITAL=0, ANALOG=1, INPUT=1, 
 // #define PWM_DUTYCYCLE_LSB DC1B
 #define PWM_DUTYCYCLE_LSB (unsigned char)4
 #define PWM_PERIOD PR2
+#define PWM_CONTROL PWM1CON
 
 //timer 2 (needed for PWM)
 #define TIMER2 TMR2
@@ -81,10 +82,10 @@ enum FLAGS {OFF=0, OUTPUT=0, INTERNAL=0, CLEAR=0, DIGITAL=0, ANALOG=1, INPUT=1, 
 #define TIMER2_INTERRUPT TMR2IE
  
 // #define TIMER2_PRESCALER T2CKPS
-
 #define ACTIVE_HIGH_ACTIVE_HIGH (unsigned char)0b1100
 #define ACTIVE_LOW_ACTIVE_LOW (unsigned char)0b1111
 #define SINGLE_OUTPUT (unsigned char)0b00
+#define HALF_BRIDGE (unsigned char)0b10
 
 //ADC
 #define ADC_VOLTAGE_REFERENCE VCFG
