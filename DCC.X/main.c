@@ -42,23 +42,27 @@ volatile union
 #define ONE_BIT_DUTY 56
 #define ONE_BIT_PERIOD 115
 
-#define ZERO_BIT_DUTY 98 
+#define ZERO_BIT_DUTY 98
 #define ZERO_BIT_PERIOD 200
 
-#define PREAMBLE_LENGTH (unsigned char)12
-__bit packet_ready; // whether we have a packet ready to send
+#define PREAMBLE_LENGTH 12
+volatile __bit packet_ready; // whether we have a packet ready to send
 //buffers for DCC packets. There are 2: one for current transmission, one for the next
-#define BUFFER_LENGTH 8
-unsigned char buffer1[BUFFER_LENGTH] = {1,1,1,0,1,0,0,1};
+#define BUFFER_LENGTH 6
+// unsigned char buffer1[BUFFER_LENGTH_CHAR] = {128,64,32,0,0,4,0,0};
+// unsigned char buffer1[5] = {0,1,2,0,3};
+unsigned char buffer1[BUFFER_LENGTH] = {0xFF, 0xFE, 0b11100101, 0b01110010, 0b10100000, 0b00111111};
 // unsigned char buffer2[4];
-
+unsigned char MASKS[8]; // this contains the bit masks, rather than shifting each cycle. This is because there is no hardware support for multiple shifts, and it takes precious cycles.
+volatile unsigned char preamble_countdown = 0;
 
 void __interrupt() ISR()
 {
-    static unsigned char preamble_countdown = PREAMBLE_LENGTH;
     static unsigned char *current_buffer = buffer1;
+    static unsigned char index_bit = 0;
+    static unsigned char index_byte = 0;
     static unsigned char index = 0;
-    static unsigned char current_bit; // used to speed up the setting of the pwm period
+    static unsigned char current_bit=1; // used to speed up the setting of the pwm period
 
     //millisecond interrupt for LED control
     if (TIMER0_INTERRUPT_FLAG) // if the timer0 interrupt flag was set (timer0 triggered)
@@ -72,6 +76,8 @@ void __interrupt() ISR()
     //connected to the PWM
     if (TIMER2_INTERRUPT_FLAG)
     {   
+        // DAT_LED = ON;
+        TIMER2_INTERRUPT_FLAG = OFF;
         //set pwm for this cycle
         if (current_bit)
         {
@@ -82,28 +88,40 @@ void __interrupt() ISR()
             PWM_PERIOD = ZERO_BIT_PERIOD;
         }
 
-        // get next bit from buffer
-        index++;
-        if (index >= BUFFER_LENGTH)
+        // get next bit from buffer. It is counted using two chars, because shifting (index>>3) doesn't have hardware support, so takes precious cycles
+        index_bit++;
+        if (index_bit > 7)
         {
-            DAT_LED = ON;
-            index = 0;
-            DAT_LED = OFF;
+            index_bit = 0;
+            index_byte++;
+            if (index_byte > 5)
+            {
+                DAT_LED = ON;
+                index_byte = 0;
+                DAT_LED = OFF;
+            }
         }
+        // index_byte = index>>3; // For some reason, this breaks hard ass.....
+        // index_bit = index%8; // while this works.
+        // because of this, I have to use two separate variables.
+        // DAT_LED = ON;
+        current_bit = buffer1[index_byte] & (MASKS[7-index_bit]);
+        // DAT_LED = OFF;
 
-        current_bit = buffer1[index];
-       
         if (current_bit) // if next bit is a one
         {
-             PWM_DUTYCYCLE_MSB = ONE_BIT_DUTY; // the bit of the next cycle will be a one
+            // DAT_LED = ON;
+            PWM_DUTYCYCLE_MSB = ONE_BIT_DUTY; // the bit of the next cycle will be a one
+            // DAT_LED = OFF;
         }
         else // if its a zero
         {
             PWM_DUTYCYCLE_MSB = ZERO_BIT_DUTY; // the bit of the next cycle will be a zero
+
         }
 
 
-        TIMER2_INTERRUPT_FLAG = OFF;
+        
         // DAT_LED = OFF;
         
     }
@@ -111,6 +129,8 @@ void __interrupt() ISR()
 
 void main()
 {
+    // OSCCON = 0b01110001; // 8MHz clock
+
     DAT_LED_TYPE = DIGITAL;
     DAT_LED_PIN = OUTPUT;
     PORTA_SH.DAT_LED = ON;
@@ -135,6 +155,14 @@ void main()
     PERIPHAL_INTERRUPT = ON;
     TIMER2_INTERRUPT = ON;
 
+    //fill bit masks
+    for (char i=0; i<8; i++)
+    {
+        MASKS[i] = 1<<i;
+    }
+
+    packet_ready = TRUE;
+
     //turn on interrupts
     GLOBAL_INTERRUPTS = ON;
 
@@ -144,7 +172,8 @@ void main()
         // DCC2 = ON;
 
         // PORTA = PORTA_SH.byte;
-        // DAT_LED = OFF;
+        // DAT_LED = ON;
+        // preamble_countdown = 0;
     }
 }
 

@@ -21,3 +21,13 @@ a `one` bit
 ![zero](zero.jpg)
 
 a `zero` bit
+
+# SHIFTTIME.jpg #
+![SHIFTTIME.jpg](SHIFTTIME.jpg)
+
+This shows the periodic delay from the shifts. This made errors pop up many times
+
+# SHIFTTIME2.jpg #
+![](SHIFTTIME2.jpg)
+
+This shows the state of affairs once I replaced the shift with mask array
