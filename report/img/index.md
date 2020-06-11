@@ -31,3 +31,8 @@ This shows the periodic delay from the shifts. This made errors pop up many time
 ![](SHIFTTIME2.jpg)
 
 This shows the state of affairs once I replaced the shift with mask array
+
+# receiver_interrupt.JPG #
+![](receiver_interrupt.JPG)
+
+The time of the edge interrupt of the receiver. The cursor shows the period, it was receiving a stream of ones
