@@ -1,0 +1,1118 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"buf",
+				"buffer_index"
+			],
+			[
+				"buff",
+				"buffer0"
+			],
+			[
+				"curr",
+				"current_buffer"
+			],
+			[
+				"cur",
+				"current_buffer"
+			],
+			[
+				"BUF",
+				"buffer_index"
+			],
+			[
+				"pack",
+				"packet_ready"
+			],
+			[
+				"le",
+				"BUFFER_LENGTH"
+			],
+			[
+				"inde",
+				"buffer_index"
+			],
+			[
+				"pre",
+				"preamble_count"
+			],
+			[
+				"ZER",
+				"ZERO_DURATION_MAX"
+			],
+			[
+				"zer",
+				"ZERO_DURATION_MIN"
+			],
+			[
+				"ONE",
+				"ONE_DURATION_MAX"
+			],
+			[
+				"in",
+				"interrim"
+			],
+			[
+				"POR",
+				"PORTA_SH"
+			],
+			[
+				"DA",
+				"DAT_LED"
+			],
+			[
+				"but",
+				"button_change"
+			],
+			[
+				"next",
+				"next_buffer"
+			],
+			[
+				"pac",
+				"packet_ready"
+			],
+			[
+				"bu",
+				"buffer"
+			],
+			[
+				"ne",
+				"next_buffer"
+			],
+			[
+				"ide",
+				"index_bit"
+			],
+			[
+				"buffer",
+				"buffer1"
+			],
+			[
+				"PAC",
+				"packet_ready"
+			],
+			[
+				"ga",
+				"gate_level"
+			],
+			[
+				"sing",
+				"single_byte"
+			],
+			[
+				"ON",
+				"ONE_BIT_PERIOD"
+			],
+			[
+				"PW",
+				"PWM_DUTYCYCLE_MSB"
+			],
+			[
+				"z",
+				"ZERO_BIT_DUTY"
+			],
+			[
+				"DAT",
+				"DAT_LED"
+			],
+			[
+				"ZERO_BIT_",
+				"ZERO_BIT_PERIOD"
+			],
+			[
+				"chann",
+				"channel_codes"
+			],
+			[
+				"chan",
+				"channel_codes"
+			],
+			[
+				"meas",
+				"measure_motor"
+			],
+			[
+				"MEAS",
+				"measure_supply"
+			],
+			[
+				"err",
+				"error_state"
+			],
+			[
+				"error_s",
+				"error_state"
+			],
+			[
+				"clea",
+				"clear_errors"
+			],
+			[
+				"EE",
+				"EEPROMWrite"
+			],
+			[
+				"sys",
+				"system_mode"
+			],
+			[
+				"er",
+				"error"
+			],
+			[
+				"spe",
+				"speed"
+			],
+			[
+				"cons",
+				"constant_set_mode"
+			],
+			[
+				"measure",
+				"measure_pot"
+			],
+			[
+				"pr",
+				"proportion_constant"
+			],
+			[
+				"du",
+				"duty_cycle"
+			],
+			[
+				"e",
+				"error_sum"
+			],
+			[
+				"max",
+				"max_voltage"
+			],
+			[
+				"indi",
+				"indication_set_speed"
+			],
+			[
+				"sp",
+				"speed_delta"
+			],
+			[
+				"spee",
+				"speed"
+			],
+			[
+				"er_s",
+				"error_state"
+			],
+			[
+				"es",
+				"error_state"
+			],
+			[
+				"CLE",
+				"CLEAR_ERROR_RATE"
+			],
+			[
+				"read",
+				"reading1_array"
+			],
+			[
+				"ind",
+				"indication_set_speed"
+			],
+			[
+				"ee",
+				"EEPROMRead"
+			],
+			[
+				"ACTI",
+				"ACTIVE_HIGH"
+			],
+			[
+				"cle",
+				"CLEAR_ERROR_RATE"
+			],
+			[
+				"rea",
+				"reading1"
+			],
+			[
+				"EEP",
+				"EEPROMWrite"
+			],
+			[
+				"inc",
+				"increment_mode"
+			],
+			[
+				"INTEG",
+				"integral_constant"
+			],
+			[
+				"PROP",
+				"proportion_constant"
+			],
+			[
+				"duty",
+				"duty_cycle"
+			],
+			[
+				"dut",
+				"duty_cycle"
+			],
+			[
+				"per",
+				"period"
+			],
+			[
+				"butt",
+				"button_bounce_count"
+			],
+			[
+				"BUT",
+				"BUTTON_BOUNCE"
+			],
+			[
+				"speed",
+				"speed_delta"
+			],
+			[
+				"inte",
+				"integral_constant"
+			],
+			[
+				"min",
+				"min_voltage"
+			],
+			[
+				"rad",
+				"reading1"
+			],
+			[
+				"mea",
+				"measure_supply"
+			],
+			[
+				"dat",
+				"DAT_LED"
+			],
+			[
+				"clk",
+				"CLK_LED"
+			],
+			[
+				"G",
+				"GLOBAL_INTERRUPTS"
+			],
+			[
+				"Go",
+				"GO_DONE"
+			],
+			[
+				"inv",
+				"in_voltage"
+			],
+			[
+				"PORT",
+				"PORTA_SH"
+			],
+			[
+				"timer2",
+				"TIMER2_INTERRUPT_FLAG"
+			],
+			[
+				"prop",
+				"proportion_constant"
+			],
+			[
+				"uni",
+				"unsigned"
+			],
+			[
+				"clear",
+				"clear_error_count"
+			],
+			[
+				"pro",
+				"proportion_set_mode"
+			],
+			[
+				"mode",
+				"proportion_set_mode"
+			],
+			[
+				"pwm_",
+				"pwm_duty_cycle"
+			],
+			[
+				"g",
+				"GO_DONE"
+			],
+			[
+				"PWM",
+				"PWM_PERIOD"
+			],
+			[
+				"calc",
+				"calcPWM"
+			],
+			[
+				"pwm",
+				"pwm_duty_cycle"
+			],
+			[
+				"0x",
+				"0x3FF"
+			],
+			[
+				"pw",
+				"pwm_duty_cycle"
+			],
+			[
+				"CLK",
+				"CLK_LED"
+			],
+			[
+				"led_",
+				"led_duty_cycle"
+			],
+			[
+				"text",
+				"\\texttt{}"
+			],
+			[
+				"sub",
+				"\\subsection{}"
+			],
+			[
+				"sec",
+				"\\section{}"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "DCC_Receiver.X/main.c",
+			"settings":
+			{
+				"buffer_size": 9704,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "DCC_Receiver.X/head.h",
+			"settings":
+			{
+				"buffer_size": 2710,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/Projects/MotorController/MotorController.X/main.c",
+			"settings":
+			{
+				"buffer_size": 16875,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "report/img/index.md",
+			"settings":
+			{
+				"buffer_size": 762,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+		[
+			[
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Traditional"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - PdfLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - XeLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Basic Builder - LuaLaTeX"
+				],
+				[
+					"Packages/LaTeXTools/LaTeX.sublime-build",
+					"Script Builder"
+				]
+			],
+			[
+				"Packages/LaTeXTools/LaTeX.sublime-build",
+				"PdfLaTeX"
+			]
+		],
+		[
+			[
+				[
+					"Packages/LaTeXing/LaTeX.sublime-build",
+					""
+				],
+				[
+					"Packages/LaTeXing/LaTeX.sublime-build",
+					"Clean up Files"
+				]
+			],
+			[
+				"Packages/LaTeXing/LaTeX.sublime-build",
+				""
+			]
+		],
+		[
+			[
+				[
+					"Packages/Python/Python.sublime-build",
+					""
+				],
+				[
+					"Packages/Python/Python.sublime-build",
+					"Syntax Check"
+				]
+			],
+			[
+				"Packages/Python/Python.sublime-build",
+				""
+			]
+		]
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 170.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"pro",
+				"Project: Close"
+			],
+			[
+				"view",
+				"View In Browser"
+			],
+			[
+				"",
+				"Browser Integration: Launch Browser"
+			],
+			[
+				"ss:htm",
+				"Set Syntax: HTML"
+			],
+			[
+				"pcin",
+				"Package Control: Install Package"
+			],
+			[
+				"pcrep",
+				"Package Control: Remove Package"
+			],
+			[
+				"ss:md",
+				"Set Syntax: Markdown GFM"
+			],
+			[
+				"ss:ht",
+				"Set Syntax: HTML"
+			],
+			[
+				"pc",
+				"Package Control: Remove Package"
+			],
+			[
+				"mdi",
+				"MarkdownImages: Show All Images"
+			],
+			[
+				"pc:",
+				"Package Control: Remove Channel"
+			],
+			[
+				"prev",
+				"MarkdownLivePreview: Open Settings"
+			],
+			[
+				"pre",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"show",
+				"MarkdownImages: Show Local Images"
+			],
+			[
+				"hide",
+				"MarkdownImages: Hide Images"
+			],
+			[
+				"pc:in",
+				"Package Control: Install Package"
+			],
+			[
+				"live",
+				"MarkdownLivePreview: Open Preview"
+			],
+			[
+				"mdlive",
+				"MarkdownLivePreview: Open Preview"
+			],
+			[
+				"mdpre",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"preview",
+				"Markdown Preview: Preview in Browser"
+			],
+			[
+				"mdim",
+				"MarkdownImages: Show Local Images"
+			],
+			[
+				"markd",
+				"Markdown HTML Preview"
+			],
+			[
+				"mar",
+				"MarkdownEditing: New Image"
+			],
+			[
+				"mar theme",
+				"MarkdownEditing: Change color scheme..."
+			],
+			[
+				"clos",
+				"File: Close All"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
+			[
+				"ss:c",
+				"Set Syntax: C++"
+			],
+			[
+				"ss:ma",
+				"Set Syntax: Markdown"
+			],
+			[
+				"ma",
+				"Markdown HTML Preview"
+			],
+			[
+				"m",
+				"Markdown HTML Preview"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"ss:m",
+				"Set Syntax: Markdown"
+			],
+			[
+				"ss:sp",
+				"Set Syntax: SPICE"
+			],
+			[
+				"close",
+				"File: Close All"
+			],
+			[
+				"bui",
+				"Build With: LaTeX - Basic Builder"
+			],
+			[
+				"word",
+				"LaTeXWordCount: Word Count"
+			],
+			[
+				"ss: ma",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"pdf",
+				"LaTeXTools: Jump to PDF"
+			],
+			[
+				"ss:la",
+				"Set Syntax: LaTeX"
+			],
+			[
+				"chec",
+				"LaTeXTools: Check system"
+			],
+			[
+				"pc: ins",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 460.0
+	},
+	"console":
+	{
+		"height": 164.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by) "
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/Projects/DCC/DCC.sublime-project",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/Projects/DCC/DCC.X/main.c",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/Projects/DCC/DCC.X/head.h",
+		"/Z/AppData/Roaming/Sublime Text 3/Packages/User/Default (Windows).sublime-keymap",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/Projects/DCC/report/img/test.html",
+		"/Z/AppData/Roaming/Sublime Text 3/Packages/Browser Refresh/Default (Windows).sublime-keymap",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/Projects/DCC/report/img/index.md",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/Projects/Ultrasound/Ultrasound.X/main.c",
+		"/Z/ZeddsFiles/MakeFolders/Projects/RPG/Essence/main.md",
+		"/Z/AppData/Roaming/Sublime Text 3/Packages/MarkdownEditing/Markdown.sublime-settings",
+		"/Z/AppData/Roaming/Sublime Text 3/Packages/User/Markdown.sublime-settings",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE531/tutorials/tut4/play.py",
+		"/Z/ZeddsFiles/MakeFolders/Projects/RPG/RollForBoots/main.md",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/DCC/.gitignore",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/DCC/DCC.X/head.h",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/DCC/DCC.X/main.c",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/DCC/DCC.X/main.pre",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/DCC/DCC.X/main.d",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/DCC/DCC.X/main.as",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/MotorController/MotorController.X/head.h",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/Ultrasound/Ultrasound.X/main.c",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/Ultrasound/Ultrasound.X/head.h",
+		"/D/DEV/PIC/MPLab/packs/Microchip/PIC16Fxxx_DFP/1.1.23/edc/PIC16F685.PIC",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/MotorController/.gitignore",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/MotorController/MotorController.X/main.c",
+		"/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/MotorController/report/MotorControllerReport/main.tex",
+		"/Z/Downloads/optmed.c",
+		"/Z/ZeddsFiles/MakeFolders/Projects/OneShots/FateV2/Notes",
+		"/D/DEV/PIC/MPLab/mpasmx/p16f685.inc",
+		"/Z/Documents/fix.bat",
+		"/E/testspace/large.txt",
+		"/Z/Desktop/test",
+		"/Z/ZeddsFiles/MakeFolders/Projects/RPG/Descriptions/main/overview.md",
+		"/Z/Desktop/MTCSTest/monte-carlo-tree-search/mctspy/tree/search.py",
+		"/Z/Desktop/MTCSTest/monte-carlo-tree-search/mctspy/tree/nodes.py",
+		"/Z/Desktop/MTCSTest/monte-carlo-tree-search/mctspy/games/common.py",
+		"/Z/Desktop/MTCSTest/monte-carlo-tree-search/mctspy/games/examples/tictactoe.py",
+		"/Z/Desktop/MTCSTest/monte-carlo-tree-search/LICENSE",
+		"/Z/Desktop/MTCSTest/monte-carlo-tree-search/README.md",
+		"/Z/Desktop/MTCSTest/monte-carlo-tree-search/setup.py",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/Campaigns/5e/Mine/TheHorrorOfTheOcean/char/NPC_Malakai.md",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/Campaigns/5e/Mine/TheHorrorOfTheOcean/char/Alethra_PC-Kahli.md",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/Campaigns/5e/Mine/TheHorrorOfTheOcean/World/ImportantPlaces.md",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/Campaigns/5e/Mine/TheHorrorOfTheOcean/char/CastlePeople.md",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/Campaigns/5e/Mine/TheHorrorOfTheOcean/story/overview.md",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/Campaigns/5e/Mine/TheHorrorOfTheOcean/sessions/session3.md",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/Campaigns/5e/Mine/TheHorrorOfTheOcean/sessions/session2.md",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/Campaigns/5e/Mine/TheHorrorOfTheOcean/sessions/session1.md",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/Campaigns/5e/Mine/TheHorrorOfTheOcean/structure_outline.md",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/Campaigns/5e/Mine/TheHorrorOfTheOcean/TheHorrorOfTheOcean.sublime-workspace",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/Campaigns/5e/Mine/TheHorrorOfTheOcean/TheHorrorOfTheOcean.sublime-project",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/Campaigns/5e/Mine/TheHorrorOfTheOcean/encounters/2-drowned_horror",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/Campaigns/5e/Mine/TheHorrorOfTheOcean/encounters/1-woodland_creatures.md",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/Campaigns/5e/Mine/TheHorrorOfTheOcean/char/NPC_Rosie.md",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D20/5e/Campaigns/Mine/V2/Creatures",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D20/5e/Campaigns/Mine/V2/Characters",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D20/5e/Campaigns/Mine/V2/#City Encounters - Ehstone#",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D20/5e/Campaigns/Mine/V2/World.txt",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D20/5e/Campaigns/Mine/V2/Story.txt",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D20/5e/Campaigns/Mine/V2/CustomWeapons&Items.txt",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D20/5e/Campaigns/Mine/V2/ship.txt",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D20/5e/Campaigns/Mine/V2/Gameplay.txt",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D20/5e/Campaigns/Mine/V2/Encounters.xlsx",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D20/5e/Campaigns/Mine/V2/Copy of Reference.xlsx",
+		"/Z/ZeddsFiles/School Folder/University/2018/Sync/2018/ENEL417/Ultrasound/main.c",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Stories/JaceGoingToStarwars.txt",
+		"/Z/Desktop/bubblegum.md",
+		"/Z/Desktop/31910150_1805075336209824_2679939127461281792_n.jpg",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Campaigns/V2/Creatures",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Campaigns/V2/Gameplay.txt",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Campaigns/V2/ship.txt",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Campaigns/V2/Story.txt",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Campaigns/V2/World.txt",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Campaigns/V2/Characters",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Campaigns/V2/#City Encounters - Ehstone#",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Campaigns/V2/CustomWeapons&Items.txt",
+		"/F/Dnd/Campaigns2/Story.txt",
+		"/F/Dnd/Campaigns2/World.txt",
+		"/F/Dnd/Campaigns2/#City Encounters - Ehstone#",
+		"/F/Dnd/Campaigns2/Creatures",
+		"/F/Dnd/Campaigns2/Characters",
+		"/F/Dnd/Campaigns2/CustomWeapons&Items.txt",
+		"/F/Dnd/Campaigns2/Gameplay.txt",
+		"/F/Dnd/Campaigns2/ship.txt",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Campaigns/ship.txt",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Campaigns/Gameplay.txt",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Campaigns/Creatures",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Campaigns/Characters",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Campaigns/#City Encounters - Ehstone#",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Campaigns/Story.txt",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Campaigns/World.txt",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Campaigns/CustomWeapons&Items.txt",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/game/scripts.rpa",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/game/cache/bytecode.rpyb",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/game/cache/screens.rpyb",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/game/cache/pyanalysis.rpyb",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/game/fonts.rpa",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/game/images.rpa",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/game/audio.rpa",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/renpy/text/text.py",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/characters/monika.chr",
+		"/Z/Desktop/FUCKING YURI",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/characters/yuri.chr",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/characters/sayori.chr",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/characters/natsuki.chr",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/game/firstrun",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/DDLC.py",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/renpy/translation/dialogue.py",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/DDLC.app/Contents/MacOS/DDLC",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/game/python-packages/singleton.py",
+		"/Z/ZeddsFiles/School Folder/University/2017/SemesterA/ENGG287/Assignments/Assignment11/main/ZeddicaiusPearsonReport.tex",
+		"/Z/ZeddsFiles/School Folder/University/2017/SemesterA/ENGG287/Assignments/Assignment11/main/lipsum.sty",
+		"/Z/ZeddsFiles/School Folder/University/2017/SemesterA/ENGG287/Assignments/Assignment11/main/biblio.bib",
+		"/Z/ZeddsFiles/School Folder/University/2017/SemesterA/ENGG287/Assignments/Assignment11/main/conf2.sty",
+		"/Z/ZeddsFiles/School Folder/University/2018/ENGG371/Reflection/reflection.tex",
+		"/Z/SteamLibrary/steamapps/common/Doki Doki Literature Club/renpy/bootstrap.py",
+		"/Z/Programs/Microsoft Office/configuration.xml",
+		"/Z/Desktop/word install/configuration.xml",
+		"/Z/ZeddsFiles/Stuff/TableTopGames/Roleplay/D&D/Campaigns/CustomWeapons.txt",
+		"/Z/ZeddsFiles/School Folder/University/2017/SemesterB/ENEL321/ExamPrep/ENEL321_ToAdd.txt",
+		"/Z/ZeddsFiles/School Folder/University/2017/SemesterB/ENEL321/Tutorials/Tutorial3/Notes.txt",
+		"/Z/ZeddsFiles/School Folder/University/2017/SemesterB/ENEL321/Labs/MOSFETSpice/globe.cir",
+		"/Z/ZeddsFiles/School Folder/University/2017/SemesterB/ENEL321/Labs/MOSFETSpice/model.cir",
+		"/Z/linux/arch/pic/pcdlib/lib/pcd8544-1.4.3/PCD8544.h",
+		"/Z/linux/arch/pic/pcdlib/lib/pcd8544-1.4.3/PCD8544.cpp",
+		"/Z/linux/arch/pic/pcdlib/lib/pcd8544-1.4.3/README.md",
+		"/Z/Downloads/mosfet_test_circuit_rds.asc",
+		"/Z/ZeddsFiles/School Folder/University/2017/SemesterB/ENEL321/Labs/LAB1/JFET_SPICE/model.cir"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 244.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"DAT_LED",
+			"ONE",
+			"PortA",
+			"ONE",
+			"DCC2",
+			"buffer2",
+			"buffer1",
+			"1",
+			"VOLATILE",
+			"ONE",
+			"ZERO",
+			"ONE"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"buffer1",
+			"buffer0"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "DCC_Receiver.X/main.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9704,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4984,
+								4984
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2217.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 1,
+					"file": "DCC_Receiver.X/head.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2710,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								551,
+								565
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 270.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/Z/ZeddsFiles/School Folder/University/2020/ENGEE580/Projects/MotorController/MotorController.X/main.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 16875,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3636,
+								3636
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1188.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "report/img/index.md",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 762,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								762,
+								762
+							]
+						],
+						"settings":
+						{
+							"markdown_view_infos":
+							{
+								"original_window_id": 2
+							},
+							"parser": "github",
+							"syntax": "Packages/MarkdownEditing/Markdown.sublime-syntax",
+							"target": "disk"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 39.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 554.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.latextools":
+	{
+		"height": 167.0
+	},
+	"pinned_build_system": "",
+	"project": "DCC_Receiver.sublime-project",
+	"replace":
+	{
+		"height": 70.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 592.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 326.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
