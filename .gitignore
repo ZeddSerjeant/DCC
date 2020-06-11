@@ -1,13 +1,25 @@
 # Specify filepatterns you want git to ignore.
 
-DCC.X/build/
-DCC.X/debug/
-DCC.X/disassembly/
-DCC.X/dist/
-DCC.X/nbproject/private/
-DCC.X/nbproject/Package-*.bash
-DCC.X/nbproject/configurations.xml
-DCC.X/nbproject/Makefile-*
+DCC_Receiver.X/build/
+DCC_Receiver.X/debug/
+DCC_Receiver.X/disassembly/
+DCC_Receiver.X/dist/
+DCC_Receiver.X/nbproject/private/
+DCC_Receiver.X/nbproject/Package-*.bash
+DCC_Receiver.X/nbproject/configurations.xml
+DCC_Receiver.X/nbproject/Makefile-*
+DCC_Receiver.X/nbproject/project.xml
+
+DCC_Transmitter.X/build/
+DCC_Transmitter.X/debug/
+DCC_Transmitter.X/disassembly/
+DCC_Transmitter.X/dist/
+DCC_Transmitter.X/nbproject/private/
+DCC_Transmitter.X/nbproject/Package-*.bash
+DCC_Transmitter.X/nbproject/configurations.xml
+DCC_Transmitter.X/nbproject/Makefile-*
+DCC_Transmitter.X/nbproject/project.xml
+
 util/~*
 
 hardware/render/*

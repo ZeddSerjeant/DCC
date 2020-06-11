@@ -1,6 +1,6 @@
 #include <xc.h> // include processor files - each processor file is guarded. 
 
-enum FLAGS {OFF=0, OUTPUT=0, INTERNAL=0, CLEAR=0, DIGITAL=0, ANALOG=1, INPUT=1, ON=1, RIGHT=1, TRUE=1};
+enum FLAGS {OFF=0, OUTPUT=0, INTERNAL=0, CLEAR=0, DIGITAL=0, FALSE=0, ANALOG=1, INPUT=1, ON=1, RIGHT=1, TRUE=1};
 #define GLOBAL_INTERRUPTS GIE
 
 //Pins

@@ -45,24 +45,25 @@ volatile union
 #define ZERO_BIT_DUTY 98
 #define ZERO_BIT_PERIOD 200
 
-#define PREAMBLE_LENGTH 12
 volatile __bit packet_ready; // whether we have a packet ready to send
+__bit buffer; // 0: buffer0, 1:buffer1
 //buffers for DCC packets. There are 2: one for current transmission, one for the next
 #define BUFFER_LENGTH 6
-// unsigned char buffer1[BUFFER_LENGTH_CHAR] = {128,64,32,0,0,4,0,0};
-// unsigned char buffer1[5] = {0,1,2,0,3};
-unsigned char buffer1[BUFFER_LENGTH] = {0xFF, 0xFE, 0b11100101, 0b01110010, 0b10100000, 0b00111111};
-// unsigned char buffer2[4];
+unsigned char buffer0[BUFFER_LENGTH] = {0xFF, 0xFE, 0b11100101, 0b01110010, 0b10100000, 0b00111111};
+unsigned char buffer1[BUFFER_LENGTH] = {0xFF, 0xFE, 0,0,0,0};
+unsigned char *next_buffer; // allows the system to point to the buffer that is ready for transmit
 unsigned char MASKS[8]; // this contains the bit masks, rather than shifting each cycle. This is because there is no hardware support for multiple shifts, and it takes precious cycles.
-volatile unsigned char preamble_countdown = 0;
+
+__bit change; //XXX
 
 void __interrupt() ISR()
 {
-    static unsigned char *current_buffer = buffer1;
+    static unsigned char *current_buffer = buffer0;
     static unsigned char index_bit = 0;
     static unsigned char index_byte = 0;
-    static unsigned char index = 0;
     static unsigned char current_bit=1; // used to speed up the setting of the pwm period
+
+    static unsigned short int count = 5000; // XXX 
 
     //millisecond interrupt for LED control
     if (TIMER0_INTERRUPT_FLAG) // if the timer0 interrupt flag was set (timer0 triggered)
@@ -71,6 +72,16 @@ void __interrupt() ISR()
         TIMER0_INTERRUPT_FLAG = CLEAR; // clear interrupt flag since we are dealing with it
         TIMER0_COUNTER = TIMER0_INITIAL + 2; // reset counter, but also add 2 since it takes 2 clock cycles to get going
         // DAT_LED = OFF;
+
+        // count--;
+        // if (!count)
+        // {
+        //     // DAT_LED = ON;
+        //     count = 2000;
+        //     change = ~change;
+        //     // DAT_LED = OFF;
+
+        // }
     }
 
     //connected to the PWM
@@ -94,36 +105,33 @@ void __interrupt() ISR()
         {
             index_bit = 0;
             index_byte++;
-            if (index_byte > 5)
+            if (index_byte > 2)
             {
                 DAT_LED = ON;
                 index_byte = 0;
+                if (packet_ready) //  a new packet is ready to transmit
+                {
+                    // DAT_LED = ON;
+                    current_buffer = next_buffer;
+                    packet_ready = FALSE;
+                    // DAT_LED = OFF;
+                }
                 DAT_LED = OFF;
             }
         }
-        // index_byte = index>>3; // For some reason, this breaks hard ass.....
-        // index_bit = index%8; // while this works.
-        // because of this, I have to use two separate variables.
-        // DAT_LED = ON;
-        current_bit = buffer1[index_byte] & (MASKS[7-index_bit]);
-        // DAT_LED = OFF;
+
+        current_bit = current_buffer[index_byte] & (MASKS[7-index_bit]);
+
 
         if (current_bit) // if next bit is a one
         {
-            // DAT_LED = ON;
             PWM_DUTYCYCLE_MSB = ONE_BIT_DUTY; // the bit of the next cycle will be a one
-            // DAT_LED = OFF;
         }
         else // if its a zero
         {
             PWM_DUTYCYCLE_MSB = ZERO_BIT_DUTY; // the bit of the next cycle will be a zero
 
         }
-
-
-        
-        // DAT_LED = OFF;
-        
     }
 }
 
@@ -161,19 +169,50 @@ void main()
         MASKS[i] = 1<<i;
     }
 
-    packet_ready = TRUE;
+    // packet_ready = TRUE;
 
     //turn on interrupts
     GLOBAL_INTERRUPTS = ON;
 
     while (1)
     {
-        // DCC1 = ON;
-        // DCC2 = ON;
+        // if (!packet_ready)
+        // {
+        //     if (buffer == 0) // if buffer0 is currently being transmitted
+        //     {
+        //         // DAT_LED = ON;
+        //         next_buffer = buffer1; // make buffer1 the next buffer
 
-        // PORTA = PORTA_SH.byte;
-        // DAT_LED = ON;
-        // preamble_countdown = 0;
+        //         // if (change)
+        //         // {
+        //         //     next_buffer[0] = 0xFF;
+        //         // }
+        //         // else
+        //         // {
+        //         //     next_buffer[0] = 0x00;
+        //         // }
+
+        //         packet_ready = TRUE;
+        //         buffer = 1;
+        //         // DAT_LED = OFF;
+        //     }
+        //     else if (buffer == 1) // if buffer1 is currently being transmitted
+        //     {
+        //         next_buffer = buffer0;
+
+        //         // if (change)
+        //         // {
+        //         //     next_buffer[0] = 0xFF;
+        //         // }
+        //         // else
+        //         // {
+        //         //     next_buffer[0] = 0x00;
+        //         // }
+
+        //         packet_ready = TRUE;
+        //         buffer = 0;
+        //     }
+        // }
     }
 }
 
