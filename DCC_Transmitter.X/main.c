@@ -106,7 +106,7 @@ void __interrupt() ISR()
         {
             index_bit = 0;
             index_byte++;
-            if (index_byte > 2)
+            if (index_byte == BUFFER_LENGTH)
             {
                 DAT_LED = ON;
                 index_byte = 0;
@@ -139,6 +139,8 @@ void __interrupt() ISR()
 void main()
 {
     // OSCCON = 0b01110001; // 8MHz clock
+    unsigned char target_address = 0b11100101; // the device we will be talking to
+    unsigned char checksum;
 
     DAT_LED_TYPE = DIGITAL;
     DAT_LED_PIN = OUTPUT;
@@ -196,31 +198,27 @@ void main()
         {
             if (buffer == 0) // if buffer0 is currently being transmitted
             {
-                // DAT_LED = ON;
                 next_buffer = buffer1; // make buffer1 the next buffer
-                
-                ADC_GODONE = ON;
-                while(ADC_GODONE);
-
-                next_buffer[2] = ADC_RESULT_HIGH;
-
-                packet_ready = TRUE;
                 buffer = 1;
-                // DAT_LED = OFF;
             }
             else if (buffer == 1) // if buffer1 is currently being transmitted
             {
                 next_buffer = buffer0;
-
-                ADC_GODONE = ON;
-                while(ADC_GODONE);
-
-                next_buffer[2] = ADC_RESULT_HIGH;
-
-                packet_ready = TRUE;
                 buffer = 0;
             }
-            change = FALSE;
+
+            ADC_GODONE = ON;
+            while(ADC_GODONE);
+
+            // calculate checksum byte (xor of address and data)
+            checksum = target_address ^ ADC_RESULT_HIGH;
+
+            next_buffer[2] = target_address;
+            next_buffer[3] = ADC_RESULT_HIGH>>1; // shifted because the protocol demands a zero at the front
+            next_buffer[4] = (ADC_RESULT_HIGH<<7) | (checksum>>2); // contains last bit of data, a zero, then 6 bits of checksum
+            next_buffer[5] = (checksum<<6) | 0x3F; // contains last 2 bits of checksum, then the packet end bit (one) then a stream of ones to link into the next preamble
+            
+            packet_ready = TRUE;            
         }
     }
 }

@@ -14,6 +14,8 @@
 // for millisecond timer
 #define TIMER0_INITIAL 132
 
+#define ADDRESS 0b11100101
+
 
 // shadow register for PortA, so as to not suffer from read/modify/write errors
 volatile union
@@ -66,7 +68,7 @@ volatile __bit packet_found;
 volatile __bit error;
 //buffers for DCC packets. There are 2: one for current transmission, one for the next
 #define BUFFER_LENGTH 6
-unsigned char buffer[1];
+unsigned char buffer[BUFFER_LENGTH];
 unsigned char buffer_index=0;
 // unsigned char buffer1[BUFFER_LENGTH];
 unsigned char bit_buffer[16]; // store bits before they are combined into a byte, for speed
@@ -220,6 +222,8 @@ void __interrupt() ISR()
 
 void main()
 {
+    unsigned char address, data, checksum;
+
     OSCCON = 0b01110001; // 8MHz clock
 
     DAT_LED_TYPE = DIGITAL;
@@ -315,7 +319,7 @@ void main()
                         {
                             if (bit_buffer[i]) // if its a one, make it so, otherwise skip
                             {
-                                buffer[buffer_index] |= (MASKS[7-i]);
+                                buffer[buffer_index] |= (MASKS[7-(i-8)]);
                             }
                         }
                         // DAT_LED = ON;
@@ -326,10 +330,23 @@ void main()
                 byte = 0;
             }
         }
-
-        if (buffer_index == 1) // buffer full, decode
+        // {0xFF, 0xFE, 0b11100101,0,0,0};
+        if (buffer_index == 4) // buffer full, decode
         {
-            PWM_DUTYCYCLE_MSB = buffer[0];
+            // buffer is rearanged to remove the structure imposed by DCC and the receiver optimisation
+            address = (buffer[0]<<1) | (buffer[1]>>7);
+            data = (buffer[1]<<2) | (buffer[2]>>6);
+            checksum = (buffer[2]<<3) | (buffer[3]>>5);
+
+            if ((address ^ data) == checksum) // as per DCC spec: is this a valid packet?
+            {
+                if (address == ADDRESS) //if this packet was addressed to this receiver
+                {
+                    PWM_DUTYCYCLE_MSB = data;
+                }
+                
+            }
+            
 
             buffer_index = 0;
             packet_found = FALSE;
