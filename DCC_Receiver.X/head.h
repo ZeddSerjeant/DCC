@@ -15,6 +15,10 @@ enum FLAGS {OFF=0, OUTPUT=0, INTERNAL=0, CLEAR=0, DIGITAL=0, FALSE=0, ANALOG=1, 
 #define CLK_LED_TYPE ANS1
 #define CLK_LED_BIT 0b000010
 
+#define NXT_LED RC0
+#define NXT_LED_PIN TRISC0
+#define NXT_LED_TYPE ANS4
+
 #define PWM RC5
 #define PWM_PIN TRISC5
 
@@ -56,6 +60,17 @@ enum FLAGS {OFF=0, OUTPUT=0, INTERNAL=0, CLEAR=0, DIGITAL=0, FALSE=0, ANALOG=1, 
 #define TIMER1_INTERRUPT TMR1IE
 #define TIMER1 TMR1ON
 
+//timer 2 (needed for PWM)
+#define TIMER2 TMR2
+#define TIMER2_CONTROL T2CON
+#define TIMER2_ON 2
+#define TIMER2_INTERRUPT_FLAG TMR2IF
+#define TIMER_CLOCK_PRESCALE (unsigned char)0
+#define TIMER_CLOCK_POSTSCALE (unsigned char)3
+#define PRESCALE_1 (unsigned char)0b00
+#define PRESCALE_4 (unsigned char)0b01
+#define PRESCALE_16 (unsigned char)0b10
+
 
 //PWM
 //parts are specified as an offset within a register
@@ -70,16 +85,7 @@ enum FLAGS {OFF=0, OUTPUT=0, INTERNAL=0, CLEAR=0, DIGITAL=0, FALSE=0, ANALOG=1, 
 #define PWM_PERIOD PR2
 #define PWM_CONTROL PWM1CON
 
-//timer 2 (needed for PWM)
-#define TIMER2 TMR2
-#define TIMER2_CONTROL T2CON
-#define TIMER2_ON 2
-#define TIMER2_INTERRUPT_FLAG TMR2IF
-#define TIMER_CLOCK_PRESCALE (unsigned char)0
-#define TIMER_CLOCK_POSTSCALE (unsigned char)3
-#define PRESCALE_1 (unsigned char)0b00
-#define PRESCALE_4 (unsigned char)0b01
-#define PRESCALE_16 (unsigned char)0b10
+
 
 #define PERIPHAL_INTERRUPT PEIE
 #define TIMER2_INTERRUPT TMR2IE

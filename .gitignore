@@ -22,6 +22,8 @@ DCC_Transmitter.X/nbproject/project.xml
 
 util/~*
 
+*.sublime-workspace
+
 hardware/render/*
 hardware/*.autosave
 report/*.pdf

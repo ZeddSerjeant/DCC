@@ -63,7 +63,7 @@ void __interrupt() ISR()
     static unsigned char index_byte = 0;
     static unsigned char current_bit=1; // used to speed up the setting of the pwm period
 
-    static unsigned short int count = 5000; // XXX 
+    static unsigned short int count = 2000; // XXX 
 
     //millisecond interrupt for LED control
     if (TIMER0_INTERRUPT_FLAG) // if the timer0 interrupt flag was set (timer0 triggered)
@@ -77,8 +77,8 @@ void __interrupt() ISR()
         // if (!count)
         // {
         //     // DAT_LED = ON;
-        //     count = 2000;
-        //     change = ~change;
+        //     count = 100;
+        //     change = TRUE;
         //     // DAT_LED = OFF;
 
         // }
@@ -105,7 +105,7 @@ void __interrupt() ISR()
         {
             index_bit = 0;
             index_byte++;
-            if (index_byte > 2)
+            if (index_byte > 1)
             {
                 DAT_LED = ON;
                 index_byte = 0;
@@ -114,7 +114,7 @@ void __interrupt() ISR()
                     // DAT_LED = ON;
                     current_buffer = next_buffer;
                     packet_ready = FALSE;
-                    // DAT_LED = OFF;
+                    DAT_LED = OFF;
                 }
                 DAT_LED = OFF;
             }
@@ -176,43 +176,31 @@ void main()
 
     while (1)
     {
-        // if (!packet_ready)
-        // {
-        //     if (buffer == 0) // if buffer0 is currently being transmitted
-        //     {
-        //         // DAT_LED = ON;
-        //         next_buffer = buffer1; // make buffer1 the next buffer
+        if (change)
+        {
+            if (!packet_ready)
+            {
+                if (buffer == 0) // if buffer0 is currently being transmitted
+                {
+                    // DAT_LED = ON;
+                    next_buffer = buffer1; // make buffer1 the next buffer
 
-        //         // if (change)
-        //         // {
-        //         //     next_buffer[0] = 0xFF;
-        //         // }
-        //         // else
-        //         // {
-        //         //     next_buffer[0] = 0x00;
-        //         // }
 
-        //         packet_ready = TRUE;
-        //         buffer = 1;
-        //         // DAT_LED = OFF;
-        //     }
-        //     else if (buffer == 1) // if buffer1 is currently being transmitted
-        //     {
-        //         next_buffer = buffer0;
+                    packet_ready = TRUE;
+                    buffer = 1;
+                    // DAT_LED = OFF;
+                }
+                else if (buffer == 1) // if buffer1 is currently being transmitted
+                {
+                    next_buffer = buffer0;
 
-        //         // if (change)
-        //         // {
-        //         //     next_buffer[0] = 0xFF;
-        //         // }
-        //         // else
-        //         // {
-        //         //     next_buffer[0] = 0x00;
-        //         // }
 
-        //         packet_ready = TRUE;
-        //         buffer = 0;
-        //     }
-        // }
+                    packet_ready = TRUE;
+                    buffer = 0;
+                }
+                change = FALSE;
+            }
+        }
     }
 }
 
