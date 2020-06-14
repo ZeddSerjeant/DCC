@@ -14,6 +14,16 @@
 // for millisecond timer
 #define TIMER0_INITIAL 132
 
+// period of flashing LED [ms]
+#define LED_PERIOD 255
+unsigned short int led_duty_cycle_counter = 0;
+unsigned short int led_duty_cycle = 0; // Duty cycle of LED as on_time[ms]
+unsigned char led_state;
+__bit reset; // to indicate if devices downstream should reset
+
+//button
+unsigned char button_state = 0; // default unpressed
+
 
 // shadow register for PortA, so as to not suffer from read/modify/write errors
 volatile union
@@ -64,32 +74,14 @@ void __interrupt() ISR()
     static unsigned char index_byte = 0;
     static unsigned char current_bit=1; // used to speed up the setting of the pwm period
 
-    static unsigned short int count = 2000; // XXX 
-
-    //millisecond interrupt for LED control
-    if (TIMER0_INTERRUPT_FLAG) // if the timer0 interrupt flag was set (timer0 triggered)
-    {
-        // DAT_LED = ON;
-        TIMER0_INTERRUPT_FLAG = CLEAR; // clear interrupt flag since we are dealing with it
-        TIMER0_COUNTER = TIMER0_INITIAL + 2; // reset counter, but also add 2 since it takes 2 clock cycles to get going
-        // DAT_LED = OFF;
-
-        // count--;
-        // if (!count)
-        // {
-        //     // DAT_LED = ON;
-        //     count = 100;
-        //     change = TRUE;
-        //     // DAT_LED = OFF;
-
-        // }
-    }
+    static unsigned char button_count = 255; // for debounce. I'm using polling, not interrupts, due this: http://www.ganssle.com/debouncing.htm
+    static __bit button_change; // so holding the button doesn't break things
 
     //connected to the PWM
     if (TIMER2_INTERRUPT_FLAG)
     {   
         // DAT_LED = ON;
-        TIMER2_INTERRUPT_FLAG = OFF;
+        TIMER2_INTERRUPT_FLAG = CLEAR;
         //set pwm for this cycle
         if (current_bit)
         {
@@ -98,6 +90,7 @@ void __interrupt() ISR()
         else
         {
             PWM_PERIOD = ZERO_BIT_PERIOD;
+            TIMER0_INTERRUPT = ON; // Turn this on, since a zero is long enough to allow other interrupts
         }
 
         // get next bit from buffer. It is counted using two chars, because shifting (index>>3) doesn't have hardware support, so takes precious cycles
@@ -108,16 +101,15 @@ void __interrupt() ISR()
             index_byte++;
             if (index_byte == BUFFER_LENGTH)
             {
-                DAT_LED = ON;
+                PORTA = 0x4 | led_state; // indicate the packet, without breaking other LEDS
                 index_byte = 0;
                 if (packet_ready) //  a new packet is ready to transmit
                 {
                     // DAT_LED = ON;
                     current_buffer = next_buffer;
                     packet_ready = FALSE;
-                    DAT_LED = OFF;
                 }
-                DAT_LED = OFF;
+                PORTA = led_state; // turn off IND_LED without affecting other LEDS
             }
         }
 
@@ -134,17 +126,86 @@ void __interrupt() ISR()
 
         }
     }
+
+    //millisecond interrupt for LED control
+    else if (TIMER0_INTERRUPT_FLAG) // if the timer0 interrupt flag was set (timer0 triggered)
+    {
+        TIMER0_INTERRUPT_FLAG = CLEAR; // clear interrupt flag since we are dealing with it
+        TIMER0_COUNTER = TIMER0_INITIAL + 2; // reset counter, but also add 2 since it takes 2 clock cycles to get going
+
+        led_duty_cycle_counter++; // increment the led counter
+        
+        if (led_duty_cycle_counter >= led_duty_cycle)
+        {
+            if (led_duty_cycle_counter >= LED_PERIOD)
+            {
+                led_duty_cycle_counter -= LED_PERIOD; //reset led counter safely
+                // led_state = ON; // we are in the ON part of the duty cycle
+            }
+            else
+            {
+                led_state = OFF;
+            }
+        }
+        else
+        {
+            led_state = ON; // within On part of duty cycle
+        }
+
+        if (BUTTON && button_count==0)
+        {
+            button_count = 30;
+        }
+        
+        
+        if (button_count > 1)
+        {
+            button_count--;
+
+            if (reset) // XXX flash reset led. this should probably be in a slightly more intelligent location
+            {
+                CLK_LED = ON;
+            }
+        }
+        else if (button_count == 1)
+        {
+            if (BUTTON)
+            {
+                if (button_change)
+                {
+                    button_change = 0;
+                    button_count = 255;
+                    button_state++;
+                    button_state = button_state%3; // three states
+
+                    reset = TRUE; // upon a press, send a reset signal. button_state can be used to detect if this has occured
+
+                }               
+            }
+            else
+            {
+                reset = FALSE;
+                button_change = 1;
+                button_count = 0;
+            }
+        }
+        TIMER0_INTERRUPT = OFF; // turn off until the pwm turns it back on when it has time
+
+    }
 }
 
 void main()
 {
     // OSCCON = 0b01110001; // 8MHz clock
-    unsigned char target_address = 0b11100101; // the device we will be talking to
+    unsigned char target_address = 0b00000101; // the device we will be talking to
     unsigned char checksum;
 
     DAT_LED_TYPE = DIGITAL;
     DAT_LED_PIN = OUTPUT;
-    PORTA_SH.DAT_LED = ON;
+    CLK_LED_TYPE = DIGITAL;
+    CLK_LED_PIN = OUTPUT;
+    IND_LED_TYPE = DIGITAL;
+    IND_LED_PIN = OUTPUT;
 
     DCC1_PIN = OUTPUT;
     DCC2_PIN = OUTPUT;
@@ -155,7 +216,7 @@ void main()
     TIMER0_CLOCK_SCOURCE = INTERNAL; // internal clock
     PRESCALER = 0; // enable prescaler for Timer0
     PS2=0; PS1=1; PS0=0; // Set prescaler to 1:8
-    TIMER0_INTERRUPT = ON; // enable timer0 interrupts
+    // TIMER0_INTERRUPT = ON; // enable timer0 interrupts
 
     //setup PWM and timer 2 for data out
     TIMER2_CONTROL = (ON<<TIMER2_ON) | (PRESCALE_1<<TIMER_CLOCK_PRESCALE); // Timer 2 register
@@ -189,11 +250,6 @@ void main()
 
     while (1)
     {
-        // for (int i = 0; i < 20; ++i)
-        // {
-        //     asm("NOP;");
-        // }
-
         if (!packet_ready)
         {
             if (buffer == 0) // if buffer0 is currently being transmitted
@@ -207,16 +263,53 @@ void main()
                 buffer = 0;
             }
 
-            ADC_GODONE = ON;
-            while(ADC_GODONE);
+            if (button_state == 0)
+            {
+                ADC_GODONE = ON;
+                while(ADC_GODONE);
 
-            // calculate checksum byte (xor of address and data)
-            checksum = target_address ^ ADC_RESULT_HIGH;
+                //output this value as an LED for testing
+                led_duty_cycle = ADC_RESULT_HIGH;
 
-            next_buffer[2] = target_address;
-            next_buffer[3] = ADC_RESULT_HIGH>>1; // shifted because the protocol demands a zero at the front
-            next_buffer[4] = (ADC_RESULT_HIGH<<7) | (checksum>>2); // contains last bit of data, a zero, then 6 bits of checksum
-            next_buffer[5] = (checksum<<6) | 0x3F; // contains last 2 bits of checksum, then the packet end bit (one) then a stream of ones to link into the next preamble
+                // calculate checksum byte (xor of address and data)
+                checksum = target_address ^ ADC_RESULT_HIGH;
+
+                next_buffer[0] = 0xFF;
+                next_buffer[1] = 0xFE; // preamble
+                next_buffer[2] = target_address;
+                next_buffer[3] = ADC_RESULT_HIGH>>1; // shifted because the protocol demands a zero at the front
+                next_buffer[4] = (ADC_RESULT_HIGH<<7) | (checksum>>2); // contains last bit of data, a zero, then 6 bits of checksum
+                next_buffer[5] = (checksum<<6) | 0x3F; // contains last 2 bits of checksum, then the packet end bit (one) then a stream of ones to link into the next preamble
+            }
+            else if (button_state == 1)
+            {
+                for (int i=0; i<BUFFER_LENGTH; i++)
+                {
+                    next_buffer[i] = 0; // corrupt buffer for demonstration
+                }
+
+                led_duty_cycle = 0;
+            }
+            else if (button_state == 2)
+            {
+                ADC_GODONE = ON;
+                while(ADC_GODONE);
+
+                //output this value as an LED for testing
+                led_duty_cycle = ADC_RESULT_HIGH;
+
+                // calculate checksum byte (xor of address and data)
+                checksum = target_address ^ ADC_RESULT_HIGH;
+
+                next_buffer[0] = 0xFF;
+                next_buffer[1] = 0xFE; // preamble
+                next_buffer[2] = 0b00000001; // different address
+                next_buffer[3] = ADC_RESULT_HIGH>>1; // shifted because the protocol demands a zero at the front
+                next_buffer[4] = (ADC_RESULT_HIGH<<7) | (checksum>>2); // contains last bit of data, a zero, then 6 bits of checksum
+                next_buffer[5] = (checksum<<6) | 0x3F; // contains last 2 bits of checksum, then the packet end bit (one) then a stream of ones to link into the next preamble
+            }
+
+            
             
             packet_ready = TRUE;            
         }

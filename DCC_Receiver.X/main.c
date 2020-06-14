@@ -11,10 +11,21 @@
 
 #include "head.h"
 
-// for millisecond timer
-#define TIMER0_INITIAL 132
+// for 130 millisecond timer
+#define TIMER0_INITIAL 0
 
-#define ADDRESS 0b11100101
+#define ADDRESS 0b00000101
+
+//led stuff
+#define LED_TIME 2
+unsigned char packet_led = 0;//indicates to the user when a packet has been detected
+unsigned char update_led = 0;//indicates to the user when a packet is for this device, and that this device has acted upon the information (bulb brightness adjusted)
+unsigned char error_led = 0; // indicates when a packet is dropped due to some error
+
+// initialize high to avoid post-programming/turning on crap
+static unsigned char button_count = 100; // for debounce. I'm using polling, not interrupts, due this: http://www.ganssle.com/debouncing.htm
+static __bit button_change; // so holding the button doesn't break things
+
 
 
 // shadow register for PortA, so as to not suffer from read/modify/write errors
@@ -86,17 +97,15 @@ __bit TEST_LED;
 
 void __interrupt() ISR()
 {
-    // initialize high to avoid post-programming/turning on crap
-    static unsigned char button_count = 255; // for debounce. I'm using polling, not interrupts, due this: http://www.ganssle.com/debouncing.htm
-    static __bit button_change; // so holding the button doesn't break things
-
+    
+    YEL_LED = ON;
     static unsigned char preamble_count = 0;
     // static unsigned char *current_buffer = bit_buffer0;
     static unsigned char current_bit = 0;
 
     static unsigned short int last_time=0;
 
-    static __bit test = 0;
+    // static __bit test = 0; // XXX
     
     // if (TIMER1_INTERRUPT_FLAG)
     // {
@@ -107,7 +116,7 @@ void __interrupt() ISR()
 
     if (EDGE_INTERRUPT_FLAG) // if an external edge interrupt is triggered
     {
-        PORTA = 0x3;
+        // PORTA = 0x3;
         mem.low = TIMER1_L;
         mem.high = TIMER1_H;
 
@@ -119,14 +128,15 @@ void __interrupt() ISR()
 
         // for now, I'll leave this out, as these glitches can be removed by the decoder, rather than this code, the 'capturer'
         // really no reason to do this here, as the system waits for the next preamble regardless, and we have no idea where that will that will occur.
-        // if (time < ONE_DURATION_MIN) // glitch
-        // {
-        //     // DAT_LED = OFF;
-        //     packet_found = FALSE;
-        //     preamble_count = 0;
-        //     // DAT_LED = ON;
-        // }
-        if (time < ONE_DURATION_MAX) // its a one
+        if (time < ONE_DURATION_MIN) // glitch
+        {
+            // DAT_LED = OFF;
+            packet_found = FALSE;
+            preamble_count = 0;
+            buffer_index = 0;
+            // DAT_LED = ON;
+        }
+        else if (time < ONE_DURATION_MAX) // its a one
         {
             // PORTA = 0x1;
             preamble_count++;
@@ -136,15 +146,15 @@ void __interrupt() ISR()
         else if (time < ZERO_DURATION_MIN) // a one combined with a zero, we are triggering on the incorrect edge
         {
             
-            // EDGE_DIRECTION = ~EDGE_DIRECTION; // change the edge trigger
+            EDGE_DIRECTION = ~EDGE_DIRECTION; // change the edge trigger
             error = TRUE;
             packet_found = FALSE;
             preamble_count = 0;
+            buffer_index = 0;
             
         }
-        else if (time < 300) // its a zero! (temp shorter time due to bugs...)
+        else if (time < 400) // its a zero! (temp shorter time due to bugs...)
         {
-            // NXT_LED = OFF;
             if (preamble_count >= REQUIRED_PREAMBLE) //  a valid packet beginning
             {                
                 packet_found = TRUE;
@@ -153,71 +163,21 @@ void __interrupt() ISR()
             }
             preamble_count = 0;
             current_bit = 0;
-            // NXT_LED = ON;
-            
-
-            //rest to prevent overflow; happens in here because this is the longest timeframe within this interrupt
-            // last_time = 0;
-            // TIMER1_L = 0;
-            // TIMER1_H = 0;
-
-            
         }
-        // else // massive glitch, or the tranmission has fucked up. For something like this to occur client side, multiple bits have to be missed, and it can be cleaned up in the encoder anyway
-        // {
-            // if (test)
-            // {
-            //     NXT_LED = OFF;
-            //     test = 0;
-            //     NXT_LED = ON;
-
-            // }
-        // }
+        else // massive glitch, or the tranmission has fucked up. For something like this to occur client side, multiple bits have to be missed, and it can be cleaned up in the encoder anyway
+        {
+            preamble_count = 0;
+            packet_found = FALSE;
+            buffer_index = 0;
+        }
 
         
         bit_buffer[bit_index] = current_bit;
         bit_index++;
         bit_index = bit_index%16;
-
-        PORTA = 0x2;
     }
 
-    //millisecond interrupt for LED control
-    // if (TIMER0_INTERRUPT_FLAG) // if the timer0 interrupt flag was set (timer0 triggered)
-    // {
-    //     // DAT_LED = ON;
-    //     TIMER0_INTERRUPT_FLAG = CLEAR; // clear interrupt flag since we are dealing with it
-    //     TIMER0_COUNTER = TIMER0_INITIAL + 2; // reset counter, but also add 2 since it takes 2 clock cycles to get going
-
-    //     if (BUTTON && button_count==0)
-    //     {
-    //         button_count = 30;
-    //     }
-        
-        
-    //     if (button_count > 1)
-    //     {
-    //         button_count--;
-    //     }
-    //     else if (button_count == 1)
-    //     {
-    //         if (BUTTON)
-    //         {
-    //             if (button_change)
-    //             {
-    //                 button_change = 0;
-    //                 button_count = 255;
-    //                 button_state = ~button_state;
-    //             }               
-    //         }
-    //         else
-    //         {
-    //             button_change = 1;
-    //             button_count = 0;
-    //         }
-    //     }
-    //     // DAT_LED = OFF;
-    // }
+    YEL_LED = OFF;
 }
 
 void main()
@@ -232,6 +192,8 @@ void main()
     CLK_LED_PIN = OUTPUT;
     NXT_LED_PIN = OUTPUT;
     NXT_LED_TYPE = DIGITAL;
+    YEL_LED_PIN = OUTPUT;
+    YEL_LED_TYPE = DIGITAL;
 
     BUTTON_PIN = INPUT;
     // PORTA_SH.DAT_LED = ON;
@@ -243,8 +205,8 @@ void main()
     TIMER0_COUNTER = TIMER0_INITIAL; // set counter
     TIMER0_CLOCK_SCOURCE = INTERNAL; // internal clock
     PRESCALER = 0; // enable prescaler for Timer0
-    PS2=0; PS1=1; PS0=0; // Set prescaler to 1:8
-    // TIMER0_INTERRUPT = ON; // enable timer0 interrupts
+    PS2=1; PS1=1; PS0=1; // Set prescaler to 1:256
+    TIMER0_INTERRUPT = OFF; // enable timer0 interrupts
 
    
     //setup PWM and timer 2 for bulb
@@ -259,8 +221,6 @@ void main()
     {
         MASKS[i] = 1<<i;
     }
-
-    // // packet_ready = TRUE;
 
     //enable INT (edge triggers)
     DATA_TYPE = DIGITAL;
@@ -282,7 +242,7 @@ void main()
 
     
     while (1)
-    {
+    {   
         if (packet_found) // a packet will begin being written into bit_buffer
         {
             // DAT_LED = ON;
@@ -330,9 +290,13 @@ void main()
                 byte = 0;
             }
         }
+
         // {0xFF, 0xFE, 0b11100101,0,0,0};
         if (buffer_index == 4) // buffer full, decode
         {
+            // TIMER0_INTERRUPT = ON; //  allow the interrupts to be processed
+            packet_led = LED_TIME; // indicate that the packet has been found
+
             // buffer is rearanged to remove the structure imposed by DCC and the receiver optimisation
             address = (buffer[0]<<1) | (buffer[1]>>7);
             data = (buffer[1]<<2) | (buffer[2]>>6);
@@ -342,45 +306,89 @@ void main()
             {
                 if (address == ADDRESS) //if this packet was addressed to this receiver
                 {
-                    PWM_DUTYCYCLE_MSB = data;
+                    update_led = LED_TIME; // indicate that a packet was aimed at this device
+
+                    if (button_state) // if the button has been pressed
+                    {
+                        PWM_DUTYCYCLE_MSB = 255; // put the output full on
+                    }
+                    else // if the user has not requested dimming, then allow the transmitter to control it
+                    {
+                        PWM_DUTYCYCLE_MSB = data;
+                    }
                 }
-                
+            }
+            else // the packet was corrupted
+            {
+                error_led = LED_TIME; // indicate that the packet was corrupted
             }
             
 
             buffer_index = 0;
             packet_found = FALSE;
         }
+        else
+        {
+            //LED TIMING
+            if (packet_led) // if we need to display whether a packet has been received
+            {
+                packet_led--;
+                PORTA_SH.DAT_LED = ON;
+            }
+            else
+            {
+                PORTA_SH.DAT_LED = OFF;
+            }
 
-        // //process button
-        // if (button_state)
-        // {
-        //     // DAT_LED = ON;
-        //     PWM_DUTYCYCLE_MSB = 100;
-        // }
-        // else
-        // {
-        //     // DAT_LED = OFF;
-        //     PWM_DUTYCYCLE_MSB = 0;
-        // }
+            if (update_led) // if we need to display whether a packet has been received
+            {
+                update_led--;
+                PORTA_SH.CLK_LED = ON;
+            }
+            else
+            {
+                PORTA_SH.CLK_LED = OFF;
+            }
 
+            if (error_led) // if we need to display whether a packet has been received
+            {
+                error_led--;
+                NXT_LED = ON;
+            }
+            else
+            {
+                NXT_LED = OFF;
+            }
 
-        // if (current_bit) // its a one, so make it so
-        // {
-        //     current_buffer[buffer_index] = current_buffer[buffer_index] | (MASKS[7-bit_index]);
-        // }
-        // if it is not a 1, its a zero, which I means I just skip writing to it
+            
+            if (BUTTON && button_count==0)
+            {
+                button_count = 5;
+            }
+            else if (button_count > 1)
+            {
+                button_count--;
+            }
+            else if (button_count == 1)
+            {
+                if (BUTTON)
+                {
+                    if (button_change)
+                    {
+                        button_change = 0;
+                        button_count = 100;
+                        button_state = ~button_state;
+                    }               
+                }
+                else
+                {
+                    button_change = 1;
+                    button_count = 0;
+                }
+            }
+        }
 
-        // PORTA = PORTA_SH.byte;
-
-        // if (DATA)
-        // {
-        //     DAT_LED = ON;
-        // }
-        // else
-        // {
-        //     DAT_LED = OFF;
-        // }
+        PORTA = PORTA_SH.byte;
     }
 }
 
