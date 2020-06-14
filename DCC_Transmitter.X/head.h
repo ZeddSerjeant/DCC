@@ -1,6 +1,6 @@
 #include <xc.h> // include processor files - each processor file is guarded. 
 
-enum FLAGS {OFF=0, OUTPUT=0, INTERNAL=0, CLEAR=0, DIGITAL=0, FALSE=0, ANALOG=1, INPUT=1, ON=1, RIGHT=1, TRUE=1};
+enum FLAGS {OFF=0, OUTPUT=0, INTERNAL=0, CLEAR=0, DIGITAL=0, FALSE=0, LEFT=0, ANALOG=1, INPUT=1, ON=1, RIGHT=1, TRUE=1};
 #define GLOBAL_INTERRUPTS GIE
 
 //Pins
@@ -35,9 +35,9 @@ enum FLAGS {OFF=0, OUTPUT=0, INTERNAL=0, CLEAR=0, DIGITAL=0, FALSE=0, ANALOG=1, 
 #define BUTTON_INTERRUPT_FLAG RAIF
 
 //POT
-#define POT RC0
-#define POT_PIN TRISC0
-#define POT_TYPE ANS4
+#define POT RC3
+#define POT_PIN TRISC3
+#define POT_TYPE ANS7
 
 //TIMER0
 #define PRESCALER PSA

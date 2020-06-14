@@ -244,10 +244,10 @@ void main()
 
    
     //setup PWM and timer 2 for bulb
-    // TIMER2_CONTROL = (ON<<TIMER2_ON) | (PRESCALE_16<<TIMER_CLOCK_PRESCALE); // Timer 2 register
-    // PWM_PERIOD = 255;
-    // PWM_DUTYCYCLE_MSB = 30; //defaut to sending a DCC-1 bit
-    // ECCP_CONTROL = (SINGLE_OUTPUT<<PWM_MODE) | (ACTIVE_HIGH_ACTIVE_HIGH<<PWM_OUTPUT); //PWM register set
+    TIMER2_CONTROL = (ON<<TIMER2_ON) | (PRESCALE_16<<TIMER_CLOCK_PRESCALE); // Timer 2 register
+    PWM_PERIOD = 255;
+    PWM_DUTYCYCLE_MSB = 30;
+    ECCP_CONTROL = (SINGLE_OUTPUT<<PWM_MODE) | (ACTIVE_HIGH_ACTIVE_HIGH<<PWM_OUTPUT); //PWM register set
 
 
     //fill bit masks
@@ -329,14 +329,7 @@ void main()
 
         if (buffer_index == 1) // buffer full, decode
         {
-            if (buffer[0] == 0x7F)
-            {
-                CLK_LED = OFF;
-            }
-            else
-            {
-                CLK_LED = ON;
-            }
+            PWM_DUTYCYCLE_MSB = buffer[0];
 
             buffer_index = 0;
             packet_found = FALSE;

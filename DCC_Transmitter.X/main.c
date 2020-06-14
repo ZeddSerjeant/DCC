@@ -49,7 +49,8 @@ volatile __bit packet_ready; // whether we have a packet ready to send
 __bit buffer; // 0: buffer0, 1:buffer1
 //buffers for DCC packets. There are 2: one for current transmission, one for the next
 #define BUFFER_LENGTH 6
-unsigned char buffer0[BUFFER_LENGTH] = {0xFF, 0xFE, 0b11100101, 0b01110010, 0b10100000, 0b00111111};
+//0b11100101
+unsigned char buffer0[BUFFER_LENGTH] = {0xFF, 0xFE, 0,0,0,0};
 unsigned char buffer1[BUFFER_LENGTH] = {0xFF, 0xFE, 0,0,0,0};
 unsigned char *next_buffer; // allows the system to point to the buffer that is ready for transmit
 unsigned char MASKS[8]; // this contains the bit masks, rather than shifting each cycle. This is because there is no hardware support for multiple shifts, and it takes precious cycles.
@@ -105,7 +106,7 @@ void __interrupt() ISR()
         {
             index_bit = 0;
             index_byte++;
-            if (index_byte > 1)
+            if (index_byte > 2)
             {
                 DAT_LED = ON;
                 index_byte = 0;
@@ -171,35 +172,55 @@ void main()
 
     // packet_ready = TRUE;
 
+    //Set up ADC
+    // POT_PIN = INPUT;
+    // POT_TYPE = ANALOG;
+    ADC_VOLTAGE_REFERENCE = INTERNAL;
+    ADC_CHANNEL2 = 1; ADC_CHANNEL1 = 1; ADC_CHANNEL0 = 1; // Set the channel to AN7 (where the POT is)
+    ADC_CLOCK_SOURCE2 = 0; ADC_CLOCK_SOURCE1 = 0; ADC_CLOCK_SOURCE0 = 1; // Set the clock rate of the ADC
+    ADC_OUTPUT_FORMAT = LEFT; // right Shifted ADC_RESULT_HIGH contains the first 2 bits
+    // ADC_INTERRUPT = OFF; // by default these aren't necessary
+    ADC_ON = ON; // turn it on
+
     //turn on interrupts
     GLOBAL_INTERRUPTS = ON;
 
     while (1)
     {
-        if (change)
+        // for (int i = 0; i < 20; ++i)
+        // {
+        //     asm("NOP;");
+        // }
+
+        if (!packet_ready)
         {
-            if (!packet_ready)
+            if (buffer == 0) // if buffer0 is currently being transmitted
             {
-                if (buffer == 0) // if buffer0 is currently being transmitted
-                {
-                    // DAT_LED = ON;
-                    next_buffer = buffer1; // make buffer1 the next buffer
+                // DAT_LED = ON;
+                next_buffer = buffer1; // make buffer1 the next buffer
+                
+                ADC_GODONE = ON;
+                while(ADC_GODONE);
 
+                next_buffer[2] = ADC_RESULT_HIGH;
 
-                    packet_ready = TRUE;
-                    buffer = 1;
-                    // DAT_LED = OFF;
-                }
-                else if (buffer == 1) // if buffer1 is currently being transmitted
-                {
-                    next_buffer = buffer0;
-
-
-                    packet_ready = TRUE;
-                    buffer = 0;
-                }
-                change = FALSE;
+                packet_ready = TRUE;
+                buffer = 1;
+                // DAT_LED = OFF;
             }
+            else if (buffer == 1) // if buffer1 is currently being transmitted
+            {
+                next_buffer = buffer0;
+
+                ADC_GODONE = ON;
+                while(ADC_GODONE);
+
+                next_buffer[2] = ADC_RESULT_HIGH;
+
+                packet_ready = TRUE;
+                buffer = 0;
+            }
+            change = FALSE;
         }
     }
 }
