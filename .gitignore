@@ -26,4 +26,4 @@ util/~*
 
 hardware/render/*
 hardware/*.autosave
-report/*.pdf
+# report/*.pdf
