@@ -63,9 +63,9 @@ __bit buffer; // 0: buffer0, 1:buffer1
 unsigned char buffer0[BUFFER_LENGTH] = {0xFF, 0xFE, 0,0,0,0};
 unsigned char buffer1[BUFFER_LENGTH] = {0xFF, 0xFE, 0,0,0,0};
 unsigned char *next_buffer; // allows the system to point to the buffer that is ready for transmit
-unsigned char MASKS[8]; // this contains the bit masks, rather than shifting each cycle. This is because there is no hardware support for multiple shifts, and it takes precious cycles.
+unsigned char MASKS[8]; // this contains the bit masks, rather than shifting each cycle. 
+//This is because there is no hardware support for multiple shifts, and it takes precious cycles.
 
-__bit change; //XXX
 
 void __interrupt() ISR()
 {
@@ -77,12 +77,12 @@ void __interrupt() ISR()
     static unsigned char button_count = 255; // for debounce. I'm using polling, not interrupts, due this: http://www.ganssle.com/debouncing.htm
     static __bit button_change; // so holding the button doesn't break things
 
-    //connected to the PWM
+    //connected to the PWM, outputs datastream
     if (TIMER2_INTERRUPT_FLAG)
     {   
-        // DAT_LED = ON;
         TIMER2_INTERRUPT_FLAG = CLEAR;
-        //set pwm for this cycle
+
+        //set pwm period for this cycle
         if (current_bit)
         {
             PWM_PERIOD = ONE_BIT_PERIOD;
@@ -99,13 +99,12 @@ void __interrupt() ISR()
         {
             index_bit = 0;
             index_byte++;
-            if (index_byte == BUFFER_LENGTH)
+            if (index_byte == BUFFER_LENGTH) // check to see if we have output an entire buffer
             {
                 PORTA = 0x4 | led_state; // indicate the packet, without breaking other LEDS
                 index_byte = 0;
-                if (packet_ready) //  a new packet is ready to transmit
+                if (packet_ready) // if there is a new packet that is ready to transmit, do that. Otherwise, retransmit this one
                 {
-                    // DAT_LED = ON;
                     current_buffer = next_buffer;
                     packet_ready = FALSE;
                 }
@@ -113,8 +112,7 @@ void __interrupt() ISR()
             }
         }
 
-        current_bit = current_buffer[index_byte] & (MASKS[7-index_bit]);
-
+        current_bit = current_buffer[index_byte] & (MASKS[7-index_bit]); // fetch current bit, using pregenerated mask for speed
 
         if (current_bit) // if next bit is a one
         {
@@ -135,9 +133,9 @@ void __interrupt() ISR()
 
         led_duty_cycle_counter++; // increment the led counter
         
-        if (led_duty_cycle_counter >= led_duty_cycle)
+        if (led_duty_cycle_counter >= led_duty_cycle) // toggle state
         {
-            if (led_duty_cycle_counter >= LED_PERIOD)
+            if (led_duty_cycle_counter >= LED_PERIOD) // restart cycle
             {
                 led_duty_cycle_counter -= LED_PERIOD; //reset led counter safely
                 // led_state = ON; // we are in the ON part of the duty cycle
@@ -152,17 +150,17 @@ void __interrupt() ISR()
             led_state = ON; // within On part of duty cycle
         }
 
+        //button press
+        // debounce
         if (BUTTON && button_count==0)
         {
             button_count = 30;
         }
-        
-        
-        if (button_count > 1)
+        else if (button_count > 1)
         {
             button_count--;
 
-            if (reset) // XXX flash reset led. this should probably be in a slightly more intelligent location
+            if (reset) //flash reset led
             {
                 CLK_LED = ON;
             }
@@ -171,7 +169,7 @@ void __interrupt() ISR()
         {
             if (BUTTON)
             {
-                if (button_change)
+                if (button_change) // if the button was definitely pressed
                 {
                     button_change = 0;
                     button_count = 255;
@@ -196,10 +194,10 @@ void __interrupt() ISR()
 
 void main()
 {
-    // OSCCON = 0b01110001; // 8MHz clock
     unsigned char target_address = 0b00000101; // the device we will be talking to
     unsigned char checksum;
 
+    // initialize pins
     DAT_LED_TYPE = DIGITAL;
     DAT_LED_PIN = OUTPUT;
     CLK_LED_TYPE = DIGITAL;
@@ -227,13 +225,11 @@ void main()
     PERIPHAL_INTERRUPT = ON;
     TIMER2_INTERRUPT = ON;
 
-    //fill bit masks
+    //fill bit masks (pregenerated for speed)
     for (char i=0; i<8; i++)
     {
         MASKS[i] = 1<<i;
     }
-
-    // packet_ready = TRUE;
 
     //Set up ADC
     // POT_PIN = INPUT;
@@ -250,7 +246,7 @@ void main()
 
     while (1)
     {
-        if (!packet_ready)
+        if (!packet_ready) // if a new packet hasn't already been generated (both buffers are thus full/being processed)
         {
             if (buffer == 0) // if buffer0 is currently being transmitted
             {
@@ -263,25 +259,28 @@ void main()
                 buffer = 0;
             }
 
-            if (button_state == 0)
+            if (button_state == 0) // normal transmit mode
             {
+                //fetch data
                 ADC_GODONE = ON;
                 while(ADC_GODONE);
 
-                //output this value as an LED for testing
+                //output this value as an LED
                 led_duty_cycle = ADC_RESULT_HIGH;
 
                 // calculate checksum byte (xor of address and data)
                 checksum = target_address ^ ADC_RESULT_HIGH;
 
+                //fill buffer
                 next_buffer[0] = 0xFF;
                 next_buffer[1] = 0xFE; // preamble
                 next_buffer[2] = target_address;
                 next_buffer[3] = ADC_RESULT_HIGH>>1; // shifted because the protocol demands a zero at the front
                 next_buffer[4] = (ADC_RESULT_HIGH<<7) | (checksum>>2); // contains last bit of data, a zero, then 6 bits of checksum
-                next_buffer[5] = (checksum<<6) | 0x3F; // contains last 2 bits of checksum, then the packet end bit (one) then a stream of ones to link into the next preamble
+                next_buffer[5] = (checksum<<6) | 0x3F; // contains last 2 bits of checksum, 
+                //then the packet end bit (one) then a stream of ones to link into the next preamble
             }
-            else if (button_state == 1)
+            else if (button_state == 1) // blank state for demo
             {
                 for (int i=0; i<BUFFER_LENGTH; i++)
                 {
@@ -290,7 +289,7 @@ void main()
 
                 led_duty_cycle = 0;
             }
-            else if (button_state == 2)
+            else if (button_state == 2) // output data to different address
             {
                 ADC_GODONE = ON;
                 while(ADC_GODONE);
@@ -306,12 +305,10 @@ void main()
                 next_buffer[2] = 0b00000001; // different address
                 next_buffer[3] = ADC_RESULT_HIGH>>1; // shifted because the protocol demands a zero at the front
                 next_buffer[4] = (ADC_RESULT_HIGH<<7) | (checksum>>2); // contains last bit of data, a zero, then 6 bits of checksum
-                next_buffer[5] = (checksum<<6) | 0x3F; // contains last 2 bits of checksum, then the packet end bit (one) then a stream of ones to link into the next preamble
+                next_buffer[5] = (checksum<<6) | 0x3F; // contains last 2 bits of checksum, 
+                //then the packet end bit (one) then a stream of ones to link into the next preamble
             }
-
-            
-            
-            packet_ready = TRUE;            
+            packet_ready = TRUE; // let transmit know there is a packet ready   
         }
     }
 }

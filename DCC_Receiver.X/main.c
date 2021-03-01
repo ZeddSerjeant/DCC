@@ -11,18 +11,16 @@
 
 #include "head.h"
 
-// for 130 millisecond timer
-#define TIMER0_INITIAL 0
-
 #define ADDRESS 0b00000101
 
 //led stuff
 #define LED_TIME 2
-unsigned char packet_led = 0;//indicates to the user when a packet has been detected
-unsigned char update_led = 0;//indicates to the user when a packet is for this device, and that this device has acted upon the information (bulb brightness adjusted)
-unsigned char error_led = 0; // indicates when a packet is dropped due to some error
+unsigned char packet_led = 0;//indicate to the user when a packet has been detected
+unsigned char update_led = 0;//indicate to the user when a packet is for this device, and that this device has acted upon the information 
+                             //(bulb brightness adjusted)
+unsigned char error_led = 0; //indicate when a packet is dropped due to some error
 
-// initialize high to avoid post-programming/turning on crap
+// initialize high to avoid post-programming/turning noise
 static unsigned char button_count = 100; // for debounce. I'm using polling, not interrupts, due this: http://www.ganssle.com/debouncing.htm
 static __bit button_change; // so holding the button doesn't break things
 
@@ -50,7 +48,7 @@ volatile union
     };
 } PORTA_SH;
 
-union reading // 16 BIT representation
+union reading // 16 BIT representation, to save memory
 {
     // arranged this way for memory locations to match
     struct
@@ -61,7 +59,6 @@ union reading // 16 BIT representation
     
     unsigned short int byte; //reading1_array[1] # reading1_array[0]
 } mem;
-// Save memory!
 
 // DCC stuff
 // to calibrate receiver (microseconds)
@@ -74,7 +71,6 @@ union reading // 16 BIT representation
 #define REQUIRED_PREAMBLE 14
 #define PACKET_LENGTH 44
 
-volatile __bit packet_ready; // whether we have a packet ready to be processed
 volatile __bit packet_found;
 volatile __bit error;
 //buffers for DCC packets. There are 2: one for current transmission, one for the next
@@ -86,14 +82,12 @@ unsigned char bit_buffer[16]; // store bits before they are combined into a byte
 unsigned char bit_index = 0;
 __bit byte; // indicates whether we are in the first 8bits of the bit buffer, or last 8 bits.  This is so the check doesn't have to happen in the interrupt
 __bit byte_ready;
-unsigned char *next_buffer; // allows the system to point to the buffer that is ready for transmit
-unsigned char MASKS[8]; // this contains the bit masks, rather than shifting each cycle. This is because there is no hardware support for multiple shifts, and it takes precious cycles.
+unsigned char MASKS[8]; // this contains the bit masks, rather than shifting each cycle. This is because there is no hardware support for multiple shifts, 
+//                          and it takes precious cycles.
 unsigned short int time=0; // to record the time between EDGE (INTF) interrupts, to distinguish bits
 
 //button
-__bit button_state; // default unpressed
-
-__bit TEST_LED;
+unsigned char button_state = 0; // default unpressed
 
 void __interrupt() ISR()
 {
@@ -103,20 +97,11 @@ void __interrupt() ISR()
     // static unsigned char *current_buffer = bit_buffer0;
     static unsigned char current_bit = 0;
 
-    static unsigned short int last_time=0;
-
-    // static __bit test = 0; // XXX
-    
-    // if (TIMER1_INTERRUPT_FLAG)
-    // {
-    //     TIMER1_INTERRUPT_FLAG = OFF;
-
-    //     test = 1;
-    // }
+    static unsigned short int last_time=0; // time of last interrupt
 
     if (EDGE_INTERRUPT_FLAG) // if an external edge interrupt is triggered
     {
-        // PORTA = 0x3;
+        //represent time as 16 bit
         mem.low = TIMER1_L;
         mem.high = TIMER1_H;
 
@@ -126,27 +111,22 @@ void __interrupt() ISR()
         time = mem.byte - last_time;
         last_time = mem.byte;
 
-        // for now, I'll leave this out, as these glitches can be removed by the decoder, rather than this code, the 'capturer'
-        // really no reason to do this here, as the system waits for the next preamble regardless, and we have no idea where that will that will occur.
-        if (time < ONE_DURATION_MIN) // glitch
+        
+        if (time < ONE_DURATION_MIN) // glitch, so search for new preamble
         {
-            // DAT_LED = OFF;
             packet_found = FALSE;
             preamble_count = 0;
             buffer_index = 0;
-            // DAT_LED = ON;
         }
         else if (time < ONE_DURATION_MAX) // its a one
         {
-            // PORTA = 0x1;
             preamble_count++;
             current_bit = 1;
-            // PORTA = 0x3;
         }
         else if (time < ZERO_DURATION_MIN) // a one combined with a zero, we are triggering on the incorrect edge
         {
             
-            EDGE_DIRECTION = ~EDGE_DIRECTION; // change the edge trigger
+            EDGE_DIRECTION = ~EDGE_DIRECTION; // change the edge trigger, since that solves this issue
             error = TRUE;
             packet_found = FALSE;
             preamble_count = 0;
@@ -164,7 +144,8 @@ void __interrupt() ISR()
             preamble_count = 0;
             current_bit = 0;
         }
-        else // massive glitch, or the tranmission has fucked up. For something like this to occur client side, multiple bits have to be missed, and it can be cleaned up in the encoder anyway
+        else // massive glitch, or the tranmission has fucked up. For something like this to occur client side, multiple bits have to be missed
+            //and it can be cleaned up in the encoder anyway
         {
             preamble_count = 0;
             packet_found = FALSE;
@@ -184,8 +165,9 @@ void main()
 {
     unsigned char address, data, checksum;
 
-    OSCCON = 0b01110001; // 8MHz clock
+    OSCCON = 0b01110001; // 8MHz clock (by default, can toggle to 4MHz)
 
+    // set pins
     DAT_LED_TYPE = DIGITAL;
     DAT_LED_PIN = OUTPUT;
     CLK_LED_TYPE = DIGITAL;
@@ -196,17 +178,8 @@ void main()
     YEL_LED_TYPE = DIGITAL;
 
     BUTTON_PIN = INPUT;
-    // PORTA_SH.DAT_LED = ON;
 
     PWM_PIN = OUTPUT;
-
-    // Set up timer0
-    // calculate intial for accurate timing $ inital = TimerMax-((Delay*Fosc)/(Prescaler*4))
-    TIMER0_COUNTER = TIMER0_INITIAL; // set counter
-    TIMER0_CLOCK_SCOURCE = INTERNAL; // internal clock
-    PRESCALER = 0; // enable prescaler for Timer0
-    PS2=1; PS1=1; PS0=1; // Set prescaler to 1:256
-    TIMER0_INTERRUPT = OFF; // enable timer0 interrupts
 
    
     //setup PWM and timer 2 for bulb
@@ -216,20 +189,20 @@ void main()
     ECCP_CONTROL = (SINGLE_OUTPUT<<PWM_MODE) | (ACTIVE_HIGH_ACTIVE_HIGH<<PWM_OUTPUT); //PWM register set
 
 
-    //fill bit masks
+    //fill bit masks. This is precomputed for performance
     for (char i=0; i<8; i++)
     {
         MASKS[i] = 1<<i;
     }
 
-    //enable INT (edge triggers)
+    //enable INT (edge triggers) for detecting the bitstream
     DATA_TYPE = DIGITAL;
     DATA_PIN = INPUT;
     EDGE_DIRECTION = FALLING; // Trigger on rising edges
     EDGE_INTERRUPT = ON; //enable the interrupt 
 
 
-    //set up timer1
+    //set up timer1 for timing the bits
     TIMER1_H = 0x00; TIMER1_L = 0x00;
     T1CKPS1 = 0; T1CKPS0 = 1; //TIMER1 prescaler
     TIMER1 = ON; // turn the timer1 on, with a 1:2 prescale so with an 8MHz clock, it counts microseconds
@@ -243,26 +216,23 @@ void main()
     
     while (1)
     {   
-        if (packet_found) // a packet will begin being written into bit_buffer
+        if (packet_found) // a packet will begin being written into bit_buffer (system found a preamble)
         {
-            // DAT_LED = ON;
-            buffer[buffer_index] = 0; // zero out the current byte
+            buffer[buffer_index] = 0; // clear the current byte
             if (byte == 0) // first byte of buffer is being recorded
             {
-                while (1) // loop for this, for speed
+                while (1) // loop for this, for speed, by holding the instruction pointer hostage
                 {
                     if (bit_index > 7) // the first byte is full, we can move it
                     {
-                        // DAT_LED = OFF;
                         for (int i=0; i<8; i++)
                         {
-                            if (bit_buffer[i]) // if its a one, make it so, otherwise skip
+                            if (bit_buffer[i]) // if its a one, make it so, otherwise skip this bit (defaults to zero)
                             {
-                                buffer[buffer_index] |= (MASKS[7-i]);
+                                buffer[buffer_index] |= (MASKS[7-i]); // use the mask to set to 1
                             }
                         }
-                        // DAT_LED = ON;
-                        break;
+                        break; // leave loop
                     }
                 }
                 buffer_index++;
@@ -274,7 +244,6 @@ void main()
                 {
                     if (bit_index < 7) // the second byte is full, we can move it
                     {
-                        // DAT_LED = OFF;
                         for (int i=8; i<16; i++)
                         {
                             if (bit_buffer[i]) // if its a one, make it so, otherwise skip
@@ -282,7 +251,6 @@ void main()
                                 buffer[buffer_index] |= (MASKS[7-(i-8)]);
                             }
                         }
-                        // DAT_LED = ON;
                         break;
                     }
                 }
@@ -291,10 +259,8 @@ void main()
             }
         }
 
-        // {0xFF, 0xFE, 0b11100101,0,0,0};
-        if (buffer_index == 4) // buffer full, decode
+        if (buffer_index == 4) // buffer full, begin decode of packet
         {
-            // TIMER0_INTERRUPT = ON; //  allow the interrupts to be processed
             packet_led = LED_TIME; // indicate that the packet has been found
 
             // buffer is rearanged to remove the structure imposed by DCC and the receiver optimisation
@@ -308,7 +274,7 @@ void main()
                 {
                     update_led = LED_TIME; // indicate that a packet was aimed at this device
 
-                    if (button_state) // if the button has been pressed
+                    if (button_state == 1) // if the button has been pressed
                     {
                         PWM_DUTYCYCLE_MSB = 255; // put the output full on
                     }
@@ -322,13 +288,13 @@ void main()
             {
                 error_led = LED_TIME; // indicate that the packet was corrupted
             }
-            
-
             buffer_index = 0;
             packet_found = FALSE;
         }
-        else
+        else //  no packet to decode, update other parts of system (this doesn't use a timer so the interrupt can be fast.)
         {
+            // this doesn't impact anything, since the timing isn't crucial, the LEDs only indicate things to the user
+            
             //LED TIMING
             if (packet_led) // if we need to display whether a packet has been received
             {
@@ -360,7 +326,8 @@ void main()
                 NXT_LED = OFF;
             }
 
-            
+            // process button input. This is safer as a polling exercise anyway
+            // debounce
             if (BUTTON && button_count==0)
             {
                 button_count = 5;
@@ -373,11 +340,24 @@ void main()
             {
                 if (BUTTON)
                 {
-                    if (button_change)
+                    if (button_change) // if the button has actually been pressed, change state
                     {
                         button_change = 0;
                         button_count = 100;
-                        button_state = ~button_state;
+                        button_state++;
+
+                        button_state = button_state%3; //three states 
+
+                        if (button_state == 0) // this state also forces a clockspeed update
+                        {
+                            OSCCON = 0b01110001; // 8MHz clock
+                            T1CKPS1 = 0; T1CKPS0 = 1; //TIMER1 prescaler (1:2)
+                        }
+                        else if (button_state == 2) // clockspeed update
+                        {
+                            OSCCON = 0b01100001; // 4MHz clock
+                            T1CKPS1 = 0; T1CKPS0 = 0; //TIMER1 prescaler (1:2)
+                        }
                     }               
                 }
                 else
@@ -388,7 +368,7 @@ void main()
             }
         }
 
-        PORTA = PORTA_SH.byte;
+        PORTA = PORTA_SH.byte; // update LEDs
     }
 }
 

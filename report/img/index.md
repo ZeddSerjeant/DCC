@@ -36,3 +36,29 @@ This shows the state of affairs once I replaced the shift with mask array
 ![](receiver_interrupt.JPG)
 
 The time of the edge interrupt of the receiver. The cursor shows the period, it was receiving a stream of ones
+
+# preamble.JPG #
+![](preamble.JPG)
+
+Shows the preambe of a packet
+
+# receiver_interrupt2(8MHz).JPG #
+![](receiver_interrupt2(8MHz).JPG)
+
+A better displayed reciever interrupt, running at 8MHz
+
+# receiver_interrupt(4MHz).JPG #
+![](receiver_interrupt(4MHz).JPG)
+
+receiver running at 4 MHz (via state button)
+
+# FullPacket.JPG #
+![](FullPacket.JPG)
+
+A packet fully displayed
+
+# transmitter_interrupt.JPG #
+![](transmitter_interrupt.JPG)
+
+Timing of transmit interrupt
+

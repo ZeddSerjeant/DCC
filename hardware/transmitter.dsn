@@ -2272,7 +2272,7 @@ download the executable.-->
 		</SYMBOL>
 		<SYMBOL id='5' pos='239.01170,113.26607' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='D?' show='0' pos='1.00000,-4.60000'/>
-			<FIELD type='0' description='Name' value='LED_dat' show='1' pos='-6.00000,-8.50000'/>
+			<FIELD type='0' description='Name' value='LED_3' show='1' pos='-6.00000,-8.50000'/>
 			<FIELD type='1' description='Package' value='LED-T1' show='0' pos='1.00000,-2.20000'/>
 			<FIELD type='1' description='Usage' value='..' show='0' pos='1.00000,0.20000'/>
 			<FIELD type='1' description='Datasheet' value='..' show='0' pos='1.00000,2.60000'/>
@@ -2280,7 +2280,7 @@ download the executable.-->
 			<FIELD type='1' description='Vf' value='..' show='0' pos='1.00000,7.40000'/>
 			<FIELD type='1' description='If' value='..' show='0' pos='1.00000,9.80000'/>
 			<FIELD type='1' description='Brightness' value='..' show='0' pos='1.00000,12.20000'/>
-			<FIELD type='1' description='Color' value='red' show='1' pos='-5.00000,0.10000'/>
+			<FIELD type='1' description='Color' value='red' show='0' pos='-5.00000,0.10000'/>
 			<FIELD type='1' description='Manufacturer' value='..' show='0' pos='1.00000,17.00000'/>
 			<FIELD type='1' description='Manufacturer Part' value='..' show='0' pos='1.00000,19.40000'/>
 			<FIELD type='1' description='Digi-Key Part' value='..' show='0' pos='1.00000,21.80000'/>
@@ -2295,7 +2295,7 @@ download the executable.-->
 		</SYMBOL>
 		<SYMBOL id='7' pos='228.01170,115.26607' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='D?' show='0' pos='1.00000,-4.60000'/>
-			<FIELD type='0' description='Name' value='LED_clk' show='1' pos='-6.50000,-8.50000'/>
+			<FIELD type='0' description='Name' value='LED_2' show='1' pos='-6.50000,-8.50000'/>
 			<FIELD type='1' description='Package' value='LED-T1' show='0' pos='1.00000,-2.20000'/>
 			<FIELD type='1' description='Usage' value='..' show='0' pos='1.00000,0.20000'/>
 			<FIELD type='1' description='Datasheet' value='..' show='0' pos='1.00000,2.60000'/>
@@ -2303,7 +2303,7 @@ download the executable.-->
 			<FIELD type='1' description='Vf' value='..' show='0' pos='1.00000,7.40000'/>
 			<FIELD type='1' description='If' value='..' show='0' pos='1.00000,9.80000'/>
 			<FIELD type='1' description='Brightness' value='..' show='0' pos='1.00000,12.20000'/>
-			<FIELD type='1' description='Color' value='red' show='1' pos='-4.50000,0.10000'/>
+			<FIELD type='1' description='Color' value='red' show='0' pos='-4.50000,0.10000'/>
 			<FIELD type='1' description='Manufacturer' value='..' show='0' pos='1.00000,17.00000'/>
 			<FIELD type='1' description='Manufacturer Part' value='..' show='0' pos='1.00000,19.40000'/>
 			<FIELD type='1' description='Digi-Key Part' value='..' show='0' pos='1.00000,21.80000'/>
@@ -2320,7 +2320,7 @@ download the executable.-->
 		</SYMBOL>
 		<SYMBOL id='7' pos='218.01170,119.26607' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='D?' show='0' pos='1.00000,-4.60000'/>
-			<FIELD type='0' description='Name' value='LED_ind' show='1' pos='-8.50000,-8.00000'/>
+			<FIELD type='0' description='Name' value='LED_1' show='1' pos='-8.50000,-8.00000'/>
 			<FIELD type='1' description='Package' value='LED-T1' show='0' pos='1.00000,-2.20000'/>
 			<FIELD type='1' description='Usage' value='..' show='0' pos='1.00000,0.20000'/>
 			<FIELD type='1' description='Datasheet' value='..' show='0' pos='1.00000,2.60000'/>
@@ -2328,7 +2328,7 @@ download the executable.-->
 			<FIELD type='1' description='Vf' value='..' show='0' pos='1.00000,7.40000'/>
 			<FIELD type='1' description='If' value='..' show='0' pos='1.00000,9.80000'/>
 			<FIELD type='1' description='Brightness' value='..' show='0' pos='1.00000,12.20000'/>
-			<FIELD type='1' description='Color' value='green' show='1' pos='-3.00000,-0.40000'/>
+			<FIELD type='1' description='Color' value='green' show='0' pos='-3.00000,-0.40000'/>
 			<FIELD type='1' description='Manufacturer' value='..' show='0' pos='1.00000,17.00000'/>
 			<FIELD type='1' description='Manufacturer Part' value='..' show='0' pos='1.00000,19.40000'/>
 			<FIELD type='1' description='Digi-Key Part' value='..' show='0' pos='1.00000,21.80000'/>
@@ -2489,36 +2489,6 @@ download the executable.-->
 		<WIRE a='285.00000,13.00000' b='285.00000,62.00000'/>
 		<WIRE a='285.00000,13.00000' b='285.00000,4.50000'/>
 		<WIRE a='79.00000,4.50000' b='285.00000,4.50000'/>
-		<SYMBOL id='6' pos='204.32280,115.00314' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
-			<FIELD type='0' description='Ref' value='R?' show='0' pos='1.00000,-13.40000'/>
-			<FIELD type='0' description='Name' value='RE1' show='0' pos='0.50000,-12.30000'/>
-			<FIELD type='3' description='value' value='390' show='1' pos='1.00000,-8.40000'/>
-		</SYMBOL>
-		<SYMBOL id='7' pos='209.51170,124.76607' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
-			<FIELD type='1' description='Ref' value='D?' show='0' pos='1.00000,-4.60000'/>
-			<FIELD type='0' description='Name' value='LED_ind' show='1' pos='-8.50000,-8.00000'/>
-			<FIELD type='1' description='Package' value='LED-T1' show='0' pos='1.00000,-2.20000'/>
-			<FIELD type='1' description='Usage' value='..' show='0' pos='1.00000,0.20000'/>
-			<FIELD type='1' description='Datasheet' value='..' show='0' pos='1.00000,2.60000'/>
-			<FIELD type='1' description='Picture' value='..' show='0' pos='1.00000,5.00000'/>
-			<FIELD type='1' description='Vf' value='..' show='0' pos='1.00000,7.40000'/>
-			<FIELD type='1' description='If' value='..' show='0' pos='1.00000,9.80000'/>
-			<FIELD type='1' description='Brightness' value='..' show='0' pos='1.00000,12.20000'/>
-			<FIELD type='1' description='Color' value='green' show='1' pos='-3.00000,-0.40000'/>
-			<FIELD type='1' description='Manufacturer' value='..' show='0' pos='1.00000,17.00000'/>
-			<FIELD type='1' description='Manufacturer Part' value='..' show='0' pos='1.00000,19.40000'/>
-			<FIELD type='1' description='Digi-Key Part' value='..' show='0' pos='1.00000,21.80000'/>
-			<FIELD type='1' description='Newark Part' value='..' show='0' pos='1.00000,24.20000'/>
-			<FIELD type='1' description='Mouser Part' value='..' show='0' pos='1.00000,26.60000'/>
-			<FIELD type='1' description='Cost' value='..' show='0' pos='1.00000,29.00000'/>
-		</SYMBOL>
-		<WIRE a='203.32280,114.00314' b='203.31170,114.00314'/>
-		<WIRE a='203.31170,114.00314' b='203.31170,115.76607'/>
-		<WIRE a='203.32280,97.00314' b='203.50000,96.50314'/>
-		<WIRE a='184.15231,94.57538' b='203.32280,94.57538'/>
-		<WIRE a='203.32280,94.57538' b='203.32280,97.00314'/>
-		<WIRE a='237.50000,131.00000' b='203.31170,131.00000'/>
-		<WIRE a='203.31170,131.00000' b='203.31170,124.76607'/>
 		<WIRE a='184.15231,102.57538' b='182.00000,102.57538'/>
 		<SYMBOL id='17' pos='63.50000,43.00000' part='0' rotate='4' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='FET?' show='0' pos='1.00000,-7.60000'/>
@@ -2570,11 +2540,9 @@ download the executable.-->
 		<JUNCTION pos='184.15231,78.57538'/>
 		<JUNCTION pos='237.50000,78.57538'/>
 		<JUNCTION pos='205.00000,82.57538'/>
-		<JUNCTION pos='203.32280,97.00314'/>
 		<JUNCTION pos='221.82280,86.50314'/>
 		<JUNCTION pos='226.50000,21.50000'/>
 		<JUNCTION pos='237.50000,39.00000'/>
-		<JUNCTION pos='237.50000,131.00000'/>
 		<JUNCTION pos='285.00000,140.50000'/>
 		<JUNCTION pos='247.43669,21.41183'/>
 		<JUNCTION pos='285.00000,13.00000'/>
